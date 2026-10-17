@@ -40,6 +40,11 @@ export default function Idea() {
                       </div>
                     )
                   }
+                  comment
+                  <form>
+                    <input type="text" placeholder="Your comment..." />
+                    <input type="checkbox" defaultChecked="off" />
+                  </form>
                 </div>
               :page===1?
                 <div>
