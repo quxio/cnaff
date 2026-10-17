@@ -1,7 +1,8 @@
 import { Authenticated, Unauthenticated, useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
+import { FaRegThumbsUp } from "react-icons/fa";
 
 function TypePicker() {
   const types = useQuery(api.data.fetchTypes);
@@ -35,7 +36,7 @@ function IdeaCard({d, index, indexfunc, currentIndex}) {
 
   return (
     <div className={currentIndex === index ? "idea idea-picked" : "idea"} onClick={()=>indexfunc(index)}>
-      <div className="ideatitle" onClick={()=>nav(`/idea?id=${d._id}`)}>{d.title}</div>
+      <div className="ideatitle" onClick={(e)=>{e.stopPropagation(); nav(`/idea?id=${d._id}`);}}>{d.title}</div>
       <div>{d.authorname}</div>
       <div>{new Date(d._creationTime).toLocaleDateString()}</div>
 
@@ -43,7 +44,8 @@ function IdeaCard({d, index, indexfunc, currentIndex}) {
         <AuthUpvoteButton _id={d._id} upvotesTotal={d.upvotesTotal} upvotesArray={d.upvotesArray}/>
       </Authenticated>
       <Unauthenticated>
-        <div onClick={()=>nav("/login")}>upvotes: {d.upvotesTotal}</div>
+        {/*<div onClick={(e)=>{e.stopPropagation();nav("/login");}}>upvotes: {d.upvotesTotal}</div>*/}
+        <FaRegThumbsUp onClick={(e)=>{e.stopPropagation();nav("/login");}}/>
       </Unauthenticated>
 
       <div>{d.nodesPrev === 0n ? (d.nodesTotal > 1 ? `nodes: ${d.nodesTotal}` : "") : `nodes: ${d.nodesTotal}, depth ${d.nodesPrev + 1n} remix`}</div>
@@ -52,25 +54,9 @@ function IdeaCard({d, index, indexfunc, currentIndex}) {
   )
 }
 
-function FeedRight({ideas, index}) {
-  const idea = index === null ? null : ideas[index];
-
+function FeedRight() {
   return (
-    <>
-      {index === null ?
-        <div className="feedrightnull">
-          <div>
-            Welcome!<br/>
-            Browse ideas and tutorial text!
-          </div>
-        </div>
-        :
-        <div className="feedrightnull">
-          {/*<div>{idea.title}</div>*/}
-          <div>THIS CONTAINED CONTENT</div>
-        </div>
-      }
-    </>
+    <div className="feedrightnull"><div>stuff</div></div>
   );
 }
 
@@ -126,7 +112,7 @@ export default function App() {
         </div>
 
         <div className="feedright">
-          <FeedRight index={index} ideas={ideas} />
+          <FeedRight />
         </div>
 
       </div>

@@ -126,6 +126,7 @@ export const addComment = mutation({
   args: {id: v.id("ideas"), text: v.string(), isProject: v.boolean()},
   async handler(ctx, {id, text, isProject}) {
     await theIdea(ctx, id);
+    if (!text) { niceTry(); }
     const userId = await ctx.runQuery(api.users.getAuthId);
     await ctx.db.insert("comments", {author: userId, idea: id, upvotesTotal: 0n, upvotesArray: [], isProject: isProject, isKicked: false, text: text});
   }
