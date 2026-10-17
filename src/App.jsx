@@ -56,7 +56,15 @@ function IdeaCard({d, index, indexfunc, currentIndex}) {
 
 function FeedRight() {
   return (
-    <div className="feedrightnull"><div>stuff</div></div>
+    <div className="feedrightnull">
+      <div>Welcome! Let's get started.</div>
+      <ul>
+        <li>Select an idea to expand its details</li>
+        <li>Search for keywords or set filters</li>
+        <li>Visit its page to make comments and view history</li>
+        <li>View related and derived ideas over here</li>
+      </ul>
+    </div>
   );
 }
 
