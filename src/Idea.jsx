@@ -3,6 +3,8 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useSearchParams } from "react-router";
 import Oops from "./Oops.jsx";
+import Mindmap from "./Mindmap.jsx";
+import fakeTree from "./fakeTree.js";
 
 export default function Idea() {
 
@@ -81,7 +83,7 @@ export default function Idea() {
                 </div>
               :
                 <div>
-                  Tree
+                  <Mindmap data={fakeTree} />
                 </div>
             }
           </div>
