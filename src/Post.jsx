@@ -1,5 +1,64 @@
 import { Navbarcontext } from "@/Navbarcontext.jsx";
 import { useContext, useState, useEffect } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../convex/_generated/api";
+import {
+  MDXEditor,
+  headingsPlugin,
+  listsPlugin,
+  quotePlugin,
+  thematicBreakPlugin,
+  linkPlugin,
+  markdownShortcutPlugin,
+  toolbarPlugin,
+  UndoRedo,
+  BoldItalicUnderlineToggles,
+  BlockTypeSelect,
+  ListsToggle,
+  CreateLink,
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
+import "./mdxeditor.css";
+
+function ImageDrop({ images, setImages }) {
+  const generateUploadUrl = useMutation(api.data.generateUploadUrl);
+  let [dragging, setDragging] = useState(false);
+  let [uploading, setUploading] = useState(0);
+
+  async function upload(files) {
+    files = [...files].filter((f) => f.type.startsWith("image/"));
+    setUploading((n) => n + files.length);
+    for (const file of files) {
+      try {
+        const url = await generateUploadUrl();
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": file.type },
+          body: file,
+        });
+        const { storageId } = await res.json();
+        setImages((ims) => [...ims, { storageId, preview: URL.createObjectURL(file) }]);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setUploading((n) => n - 1);
+      }
+    }
+  }
+
+  return (
+    <label
+      className={dragging ? "imagedrop imagedrop-dragging" : "imagedrop"}
+      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+      onDragLeave={() => setDragging(false)}
+      onDrop={(e) => { e.preventDefault(); setDragging(false); upload(e.dataTransfer.files); }}
+    >
+      <input type="file" accept="image/*" multiple hidden onChange={(e) => { upload(e.currentTarget.files); e.currentTarget.value = ""; }} />
+      <span>{uploading > 0 ? `Uploading ${uploading}...` : "Drop your mock-ups here, or click to choose..."}</span>
+      {images.map((im) => <img key={im.storageId} src={im.preview} />)}
+    </label>
+  );
+}
 
 export default function Post() {
 
@@ -8,11 +67,12 @@ export default function Post() {
   let [title, setTitle] = useState("");
   let [desc, setDesc] = useState("");
   let [amend, setAmend] = useState("");
+  let [images, setImages] = useState([]);
 
   useEffect(
     ()=>{
       if (nc.post === true) {
-        console.log(title, desc, amend);
+        console.log(title, desc, amend, images.map((im) => im.storageId));
         nc.setPost(false);
       }
     },
@@ -22,7 +82,7 @@ export default function Post() {
   return (
     <div className="post">
       <div>
-        <div className="imagedrop">Drop your mock-ups here...</div>
+        <ImageDrop images={images} setImages={setImages} />
         <div className="title">
           <textarea className="title" autoCorrect="on" maxLength="60" value={title} placeholder="A short and descriptive title..." onChange={(e)=>setTitle(e.currentTarget.value)} />
           <div>{title.length > 0 ? `${title.length}/60` : ""}</div>
@@ -32,7 +92,31 @@ export default function Post() {
           <div>{desc.length > 0 ? `${desc.length}/180` : ""}</div>
         </div>
         <div className="amend">
-          <textarea className="amend" autoCorrect="on" value={amend} placeholder="# An inital set of specifications and details on your idea&#10;*you can add more details later*" onChange={(e)=>setAmend(e.currentTarget.value)} />
+          <MDXEditor
+            markdown={amend}
+            onChange={setAmend}
+            contentEditableClassName="mdx-content"
+            placeholder="An inital set of specifications and details on your idea... you can add more details later"
+            plugins={[
+              headingsPlugin(),
+              listsPlugin(),
+              quotePlugin(),
+              thematicBreakPlugin(),
+              linkPlugin(),
+              markdownShortcutPlugin(),
+              toolbarPlugin({
+                toolbarContents: () => (
+                  <>
+                    <UndoRedo />
+                    <BlockTypeSelect />
+                    <BoldItalicUnderlineToggles />
+                    <ListsToggle />
+                    <CreateLink />
+                  </>
+                ),
+              }),
+            ]}
+          />
         </div>
       </div>
     </div>

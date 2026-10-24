@@ -150,3 +150,9 @@ export const addComment = mutation({
 
 
 
+export const generateUploadUrl = mutation({
+  args: {}, async handler(ctx) {
+    await ctx.runQuery(api.users.getAuthId);
+    return await ctx.storage.generateUploadUrl();
+  }
+})

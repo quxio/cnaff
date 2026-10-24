@@ -2,11 +2,14 @@
     margin: 0; padding: 0;
     box-sizing: border-box;
     user-select: none; -webkit-user-select: none;
-    cursor: default; /*font: 16px/1.14 system-ui;*/
-    font: 18px/1.14 system-ui;
-    flex-shrink: 0; color: black;
+    cursor: default;
+    flex-shrink: 0;
     appearance: none; text-decoration: none;
 }
+/* font and color live on body (not *) so nested elements can inherit them, e.g. inside the md editor */
+body { font: 18px/1.14 system-ui; /*font: 16px/1.14 system-ui;*/ color: black; }
+input, textarea, button, select { font: inherit; }
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
 a:visited {
     color: black;
 }
@@ -289,7 +292,13 @@ body { background-color: #e0e0da; overflow: clip; }
 .imagedrop {
     grid-area: 1 / 1 / 3 / 3; background-color: white;
     padding: 30px;
+    color: gray; border-radius: 2px; cursor: pointer;
+    display: flex; flex-flow: row wrap; align-content: flex-start; gap: 7px;
+    overflow-y: auto;
 }
+.imagedrop > span { width: 100%; }
+.imagedrop > img { width: 80px; height: 80px; object-fit: cover; }
+.imagedrop-dragging { outline: 2px dashed gray; outline-offset: -6px; }
 .title {
     grid-area: 1 / 3 / 2 / 5; background-color: white;
 }
@@ -297,8 +306,11 @@ body { background-color: #e0e0da; overflow: clip; }
     grid-area: 1 / 5 / 2 / 8; background-color: white;
 }
 .amend {
-    grid-area: 2 / 3 / 3 / 8
+    grid-area: 2 / 3 / 3 / 8;
+    background-color: white;
 }
+.post .amend > div { position: static; height: 100%; overflow-y: auto; }
+.post .amend div { color: black; }
 .post textarea { width: 100%; height: 100%; resize: none; border: none; padding: 10px; cursor: text; }
 .post > div > div > div {
     position: absolute;
