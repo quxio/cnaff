@@ -33,23 +33,21 @@ export default function Idea() {
                   <hr/>
                   <h2>Comments</h2>
                   <div className="comments">
-
-                    <div>
-                      <div>comment AAAAAAAAAAA</div>
+                    <div >
+                      <div className="c">comment AAAAAAAAAAA</div>
                       <div className="indent">
-                        <div><div>response AAAAAAAA</div></div>
-                        <div><div>response BBBBBBBBBB</div></div>
+                        <div><div className="c">response AAAAAAAA</div></div>
+                        <div><div className="c">response BBBBBBBBBB</div></div>
                       </div>
                     </div>
 
                     <div>
-                      <div>comment BBBBBBBBBB</div>
+                      <div className="c">comment BBBBBBBBBB</div>
                       <div className="indent">
-                        <div><div>response CCCCCCCCCC</div></div>
-                        <div><div>response DDDDDDDDDDDD</div></div>
+                        <div><div className="c">response CCCCCCCCCC</div></div>
+                        <div><div className="c">response DDDDDDDDDDDD</div></div>
                       </div>
                     </div>
-
                   </div>
                   <hr/>
                   <div>[profile picture]</div>

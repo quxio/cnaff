@@ -460,7 +460,9 @@ body { background-color: #e0e0da; overflow: clip; }
 /*============================*/
 
 .comments {
-
+    display: flex; flex-flow: column nowrap;
+    align-items: flex-end;
+    gap: 4px; padding: 4px;
 }
 .comments div {
     width: 100%;
@@ -471,6 +473,6 @@ body { background-color: #e0e0da; overflow: clip; }
     align-items: flex-end;
     gap: 4px; padding: 4px;
 }
-.comments div:nth-child(1) {
+.c {
     border-radius: 4px; background-color: white;
 }
