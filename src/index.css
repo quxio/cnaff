@@ -305,6 +305,10 @@ body { background-color: #e0e0da; overflow: clip; }
 .desc {
     grid-area: 1 / 5 / 2 / 8; background-color: white;
 }
+.posttype {
+    grid-area: 3 / 1 / 4 / 3; background-color: white;
+}
+.posttype select { width: 100%; padding: 10px; border: none; background: none; cursor: pointer; }
 .amend {
     grid-area: 2 / 3 / 3 / 8;
     background-color: white;

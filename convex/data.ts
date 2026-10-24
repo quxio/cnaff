@@ -97,8 +97,9 @@ export const addIdea = mutation({
     desc: v.string(),
     amend: v.string(),
     type: v.id("types"),
+    images: v.optional(v.array(v.id("_storage"))),
   },
-  async handler(ctx, {parent, title, desc, amend, type}) {
+  async handler(ctx, {parent, title, desc, amend, type, images}) {
     const userId = await ctx.runQuery(api.users.getAuthId);
     if (parent) { await theIdea(ctx, parent); } await theType(ctx, type);
     if (!title || !desc || !amend) { niceTry(); }
@@ -116,6 +117,7 @@ export const addIdea = mutation({
       author: userId, break: Date.now(), type: type,
       parent, title, desc,
       upvotesTotal: 0n, upvotesArray: [], nodesPrev: cnt, nodesTotal: cnt+1n, amendsTotal: 0n,
+      images,
     })
     await ctx.db.insert("amends", {author: userId, idea: add, text: amend, inspoComments: []});
 

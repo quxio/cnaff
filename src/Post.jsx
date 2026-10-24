@@ -1,6 +1,7 @@
 import { Navbarcontext } from "@/Navbarcontext.jsx";
 import { useContext, useState, useEffect } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
+import { useNavigate } from "react-router";
 import { api } from "../convex/_generated/api";
 import {
   MDXEditor,
@@ -37,7 +38,10 @@ function ImageDrop({ images, setImages }) {
           body: file,
         });
         const { storageId } = await res.json();
-        setImages((ims) => [...ims, { storageId, preview: URL.createObjectURL(file) }]);
+        setImages((ims) => [
+          ...ims,
+          { storageId, preview: URL.createObjectURL(file) },
+        ]);
       } catch (err) {
         console.error(err);
       } finally {
@@ -49,46 +53,130 @@ function ImageDrop({ images, setImages }) {
   return (
     <label
       className={dragging ? "imagedrop imagedrop-dragging" : "imagedrop"}
-      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragging(true);
+      }}
       onDragLeave={() => setDragging(false)}
-      onDrop={(e) => { e.preventDefault(); setDragging(false); upload(e.dataTransfer.files); }}
+      onDrop={(e) => {
+        e.preventDefault();
+        setDragging(false);
+        upload(e.dataTransfer.files);
+      }}
     >
-      <input type="file" accept="image/*" multiple hidden onChange={(e) => { upload(e.currentTarget.files); e.currentTarget.value = ""; }} />
-      <span>{uploading > 0 ? `Uploading ${uploading}...` : "Drop your mock-ups here, or click to choose..."}</span>
-      {images.map((im) => <img key={im.storageId} src={im.preview} />)}
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        hidden
+        onChange={(e) => {
+          upload(e.currentTarget.files);
+          e.currentTarget.value = "";
+        }}
+      />
+      <span>
+        {uploading > 0
+          ? `Uploading ${uploading}...`
+          : "Drop your mock-ups here, or click to choose..."}
+      </span>
+      {images.map((im) => (
+        <img key={im.storageId} src={im.preview} />
+      ))}
     </label>
   );
 }
 
 export default function Post() {
-
   const nc = useContext(Navbarcontext);
 
   let [title, setTitle] = useState("");
   let [desc, setDesc] = useState("");
   let [amend, setAmend] = useState("");
   let [images, setImages] = useState([]);
+  let [type, setType] = useState("");
 
-  useEffect(
-    ()=>{
-      if (nc.post === true) {
-        console.log(title, desc, amend, images.map((im) => im.storageId));
-        nc.setPost(false);
-      }
-    },
-    [nc.post]
-  )
+  const types = useQuery(api.data.fetchTypes);
+  const addIdea = useMutation(api.data.addIdea);
+  const nav = useNavigate();
+
+  async function submit() {
+    const missing = [
+      !title.trim() && "title",
+      !desc.trim() && "description",
+      !type && "type",
+      !amend.trim() && "details",
+    ].filter(Boolean);
+    if (missing.length) {
+      alert(`missing: ${missing.join(", ")}`);
+      return;
+    }
+    try {
+      await addIdea({
+        parent: null,
+        title,
+        desc,
+        amend,
+        type,
+        images: images.map((im) => im.storageId),
+      });
+      nav("/");
+    } catch (err) {
+      console.error(err);
+      alert("failed to post, try again");
+    }
+  }
+
+  useEffect(() => {
+    if (nc.post === true) {
+      console.log(
+        title,
+        desc,
+        amend,
+        images.map((im) => im.storageId),
+      );
+      nc.setPost(false);
+
+      // added this for submission.
+      // I don't really like useEffect() is a good way to handle submit but it works so :)
+      submit();
+    }
+  }, [nc.post]);
 
   return (
     <div className="post">
       <div>
         <ImageDrop images={images} setImages={setImages} />
+        <div className="posttype">
+          <select value={type} onChange={(e) => setType(e.currentTarget.value)}>
+            <option value="">Choose a type...</option>
+            {types &&
+              Object.keys(types).map((a) => (
+                <option key={a} value={types[a]}>
+                  {a}
+                </option>
+              ))}
+          </select>
+        </div>
         <div className="title">
-          <textarea className="title" autoCorrect="on" maxLength="60" value={title} placeholder="A short and descriptive title..." onChange={(e)=>setTitle(e.currentTarget.value)} />
+          <textarea
+            className="title"
+            autoCorrect="on"
+            maxLength="60"
+            value={title}
+            placeholder="A short and descriptive title..."
+            onChange={(e) => setTitle(e.currentTarget.value)}
+          />
           <div>{title.length > 0 ? `${title.length}/60` : ""}</div>
         </div>
         <div className="desc">
-          <textarea className="desc" autoCorrect="on" maxLength="180" value={desc} placeholder="A 1-2 sentence description..." onChange={(e)=>setDesc(e.currentTarget.value)} />
+          <textarea
+            className="desc"
+            autoCorrect="on"
+            maxLength="180"
+            value={desc}
+            placeholder="A 1-2 sentence description..."
+            onChange={(e) => setDesc(e.currentTarget.value)}
+          />
           <div>{desc.length > 0 ? `${desc.length}/180` : ""}</div>
         </div>
         <div className="amend">
@@ -120,5 +208,5 @@ export default function Post() {
         </div>
       </div>
     </div>
-  )
+  );
 }

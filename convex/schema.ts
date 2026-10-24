@@ -49,6 +49,7 @@ export default defineSchema({
     nodesTotal: v.int64(),
     upvotesTotal: v.int64(),
     upvotesArray: v.array(v.id("users")),
+    images: v.optional(v.array(v.id("_storage"))),
   })
     .index("author", ["author"])
     .index("parent", ["parent"])
