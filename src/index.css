@@ -464,6 +464,9 @@ body { background-color: #e0e0da; overflow: clip; }
     align-items: flex-end;
     gap: 4px; padding: 4px;
 }
+.comments * {
+    font-size: 16px;
+}
 .comments div {
     width: 100%;
 }
@@ -471,8 +474,20 @@ body { background-color: #e0e0da; overflow: clip; }
     display: flex; flex-flow: column nowrap;
     align-items: flex-end;
     gap: 4px; padding: 4px;
-    margin-left: 20px;
+    margin-left: 30px;
+    position: relative;
 }
 .c {
-    border-radius: 4px; background-color: white;
+    border-radius: 5px; background-color: white;
+    border: 1px solid lightgray;
+    padding: 5px;
+    position: relative;
+}
+.c > div:nth-child(1) {
+    position: absolute; background-color: gray;
+    height: 4px; right: 100%; width: 20px;
+}
+.index > div:nth-child(1) {
+    position: absolute; background-color: gray;
+    width: 4px; left: 0; height: 100%;
 }
