@@ -56,15 +56,16 @@ export default defineSchema({
 
   comments: defineTable({
     author: v.id("users"),
+    parent: v.nullable(v.id("comments")),
     idea: v.id("ideas"),
     upvotesTotal: v.int64(),
     upvotesArray: v.array(v.id("users")),
 
     isProject: v.boolean(),
-    isKicked: v.boolean(),
     text: v.string(),
   })
     .index("idea", ["idea"])
+    .index("parent", ["parent"])
   ,
 
   amends: defineTable({
@@ -72,19 +73,7 @@ export default defineSchema({
     idea: v.id("ideas"),
     text: v.string(),
     inspoComments: v.array(v.id("comments")),
-    inspoQomments: v.array(v.id("qomments")),
   })
     .index("idea", ["idea"])
   ,
-
-  qomments: defineTable({
-    author: v.id("users"),
-    comment: v.id("comments"),
-    upvotesTotal: v.int64(),
-    upvotesArray: v.array(v.id("users")),
-
-    text: v.string(),
-    isEdit: v.boolean(),
-  })
-    .index("comment", ["comment"]),
 });

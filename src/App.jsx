@@ -3,6 +3,7 @@ import { api } from "../convex/_generated/api";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { FaRegThumbsUp } from "react-icons/fa";
+import { RibbitAvatar } from "ribbit-canvas/react";
 
 function TypePicker() {
   const types = useQuery(api.data.fetchTypes);
@@ -64,6 +65,7 @@ function FeedRight() {
         <li>Visit its page to make comments and view history</li>
         <li>View related and derived ideas over here</li>
       </ul>
+      <RibbitAvatar seed="aksdjhfghbjfad" pattern="wave" size={50} />
     </div>
   );
 }
