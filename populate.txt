@@ -1,0 +1,1 @@
+Copy paste the entire json into the <input/> in /admin and hit submit
