@@ -323,6 +323,15 @@ body { background-color: #e0e0da; overflow: clip; }
 .ttpicker {
     display: flex; flex-flow: nowrap column; gap: 6px;
 }
+.ttpicker-item {
+    cursor: pointer;
+}
+.ttpicker-item:hover {
+    text-decoration: underline;
+}
+.ttpicker-picked {
+    font-weight: bold;
+}
 .feedmiddle {
     display: flex; flex-flow: column nowrap;
     gap: 7px;
@@ -454,6 +463,14 @@ body { background-color: #e0e0da; overflow: clip; }
     width: min(1000px, 90vw);
     position: relative;
     border-radius: 5px;
+    padding: 20px;
+}
+.ideamodal-link {
+    font-weight: bold;
+    cursor: pointer;
+}
+.ideamodal-link:hover {
+    text-decoration: underline;
 }
 
 
