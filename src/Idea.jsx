@@ -36,7 +36,12 @@ export default function Idea() {
                     <div >
                       <div className="c">comment AAAAAAAAAAA</div>
                       <div className="indent">
-                        <div><div className="c">response AAAAAAAA</div></div>
+                        <div>
+                          <div className="c">comment AAAAAAAAAAA</div>
+                          <div className="indent">
+                            <div><div className="c">response BBBBBBBBBB</div></div>
+                          </div>
+                        </div>
                         <div><div className="c">response BBBBBBBBBB</div></div>
                       </div>
                     </div>

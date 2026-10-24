@@ -468,10 +468,10 @@ body { background-color: #e0e0da; overflow: clip; }
     width: 100%;
 }
 .indent {
-    width: 90%;
     display: flex; flex-flow: column nowrap;
     align-items: flex-end;
     gap: 4px; padding: 4px;
+    margin-left: 20px;
 }
 .c {
     border-radius: 4px; background-color: white;
