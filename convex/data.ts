@@ -69,6 +69,19 @@ export const fetchTypes = query({
     return map;
   }
 })
+export const ensureTypes = mutation({
+  args: {names: v.array(v.string())}, async handler(ctx, {names}) {
+    await ctx.runQuery(api.users.getAuthId);
+    const types = await ctx.db.query("types").collect();
+    const map : Record<string, Id<"types">> = {};
+    for (const type of types) { map[type.name] = type._id; }
+    for (const name of names) {
+      if (!name) { niceTry(); }
+      if (!map[name]) { map[name] = await ctx.db.insert("types", {name}); }
+    }
+    return map;
+  }
+})
 export const fetchTopics = query({
   args: {}, async handler(ctx) {
     const topics = await ctx.db.query("topics").collect();

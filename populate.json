@@ -1,182 +1,303 @@
 [
   {
     "title": "Pocket Weather Station",
-    "description": "A tiny sensor device that tracks local weather conditions.",
+    "desc": "A tiny sensor device that tracks local weather conditions.",
+    "type": "Electronic Device",
     "writeup": "A compact maker project using temperature, humidity, pressure, and light sensors. Data syncs to a phone over Bluetooth and is displayed as simple historical graphs. Designed to be inexpensive, battery-powered, and easy to assemble from off-the-shelf parts.",
-    "tags": ["Electronic Device", "Mobile App"]
+    "tags": [
+      "Electronic Device",
+      "Mobile App"
+    ]
   },
   {
     "title": "Dungeon Snack Run",
-    "description": "A goofy roguelike about collecting snacks in a dangerous dungeon.",
+    "desc": "A goofy roguelike about collecting snacks in a dangerous dungeon.",
+    "type": "Original Game",
     "writeup": "ok hear me out: you're not a knight, you're some guy who got locked in a dungeon with a bag of chips. every floor has monsters, vending machines, cursed snacks, etc. eating stuff gives u buffs but also sometimes absolutely ruins your run lol.",
-    "tags": ["Original Game"]
+    "tags": [
+      "Original Game"
+    ]
   },
   {
     "title": "Focus Garden",
-    "description": "A productivity app where completed tasks grow a virtual garden.",
+    "desc": "A productivity app where completed tasks grow a virtual garden.",
+    "type": "Mobile App",
     "writeup": "Focus Garden translates completed work sessions into visible progress in a persistent garden. Users can cultivate different plants, unlock decorative objects, and review their productivity history without introducing competitive social features. The interface should remain calm and intentionally low-distraction.",
-    "tags": ["Mobile App", "Organization"]
+    "tags": [
+      "Mobile App",
+      "Organization"
+    ]
   },
   {
     "title": "Garage Synth",
-    "description": "A DIY tabletop synthesizer built around inexpensive components.",
+    "desc": "A DIY tabletop synthesizer built around inexpensive components.",
+    "type": "Electronic Device",
     "writeup": "The Garage Synth combines a microcontroller, physical knobs, buttons, and a small speaker into a standalone experimental instrument. Its design prioritizes tactile interaction over menu navigation. Firmware should expose enough parameters to encourage experimentation while keeping the hardware approachable for beginners.",
-    "tags": ["Electronic Device"]
+    "tags": [
+      "Electronic Device"
+    ]
   },
   {
     "title": "Bus Stop Bingo",
-    "description": "A phone game that turns waiting for public transit into a scavenger hunt.",
+    "desc": "A phone game that turns waiting for public transit into a scavenger hunt.",
+    "type": "Mobile App",
     "writeup": "Basically bingo but while you're waiting for the bus. spot a dog, someone carrying flowers, a skateboard, a bus with an ad for something weird, etc. You get points and can make themed boards for different neighborhoods. Needs to work offline because obviously.",
-    "tags": ["Mobile App", "Original Game"]
+    "tags": [
+      "Mobile App",
+      "Original Game"
+    ]
   },
   {
     "title": "Tiny Archive",
-    "description": "A personal desktop app for preserving small digital memories.",
+    "desc": "A personal desktop app for preserving small digital memories.",
+    "type": "Desktop App",
     "writeup": "Tiny Archive provides a deliberately simple interface for saving screenshots, notes, photographs, links, and short audio clips. Each item receives a date and optional tags, with an emphasis on local storage and long-term portability. Export should produce a human-readable archive rather than a proprietary database dump.",
-    "tags": ["Desktop App", "Organization"]
+    "tags": [
+      "Desktop App",
+      "Organization"
+    ]
   },
   {
     "title": "Orbital Courier",
-    "description": "A strategy game about delivering cargo between tiny planets.",
+    "desc": "A strategy game about delivering cargo between tiny planets.",
+    "type": "Original Game",
     "writeup": "Players operate a small interplanetary courier company and plan routes between procedurally generated worlds. Fuel, cargo mass, orbital timing, and customer deadlines create the central strategic constraints. The visual style should feel like an illustrated technical manual rather than a realistic space simulator.",
-    "tags": ["Original Game", "Simulator"]
+    "tags": [
+      "Original Game",
+      "Simulator"
+    ]
   },
   {
     "title": "Fridge DJ",
-    "description": "A kitchen gadget that turns refrigerator door openings into musical samples.",
+    "desc": "A kitchen gadget that turns refrigerator door openings into musical samples.",
+    "type": "Electronic Device",
     "writeup": "A deliberately silly hardware project using magnetic switches and a small audio board. Different household interactions can trigger drum hits, bass notes, or prerecorded samples. The device should be harmless and removable, with a physical master switch to prevent accidental activation.",
-    "tags": ["Electronic Device", "Home Automation"]
+    "tags": [
+      "Electronic Device",
+      "Home Automation"
+    ]
   },
   {
     "title": "Moodboard Radio",
-    "description": "A web app that creates ambient radio stations from visual themes.",
+    "desc": "A web app that creates ambient radio stations from visual themes.",
+    "type": "Web-Based Platform",
     "writeup": "Users upload or select a handful of images representing a mood, place, color palette, or aesthetic. The application extracts broad visual characteristics and uses them to construct an ambient music playlist. The experience is intended to be exploratory rather than optimized around conventional genre labels.",
-    "tags": ["Web-Based Platform", "Web Tool"]
+    "tags": [
+      "Web-Based Platform",
+      "Web Tool"
+    ]
   },
   {
     "title": "Robot Plant Buddy",
-    "description": "A small desktop robot that monitors a houseplant and reacts to its condition.",
+    "desc": "A small desktop robot that monitors a houseplant and reacts to its condition.",
+    "type": "Electronic Device",
     "writeup": "Robot Plant Buddy combines soil moisture sensing with a simple animated face and servo-driven movements. It can become sleepy when the plant is dry, celebrate after watering, and display basic environmental readings. The project is intentionally expressive and toy-like rather than attempting to replace proper plant care.",
-    "tags": ["Electronic Device", "Home Automation"]
+    "tags": [
+      "Electronic Device",
+      "Home Automation"
+    ]
   },
   {
     "title": "Lost Button",
-    "description": "A tiny puzzle game about finding the missing button on a strange machine.",
+    "desc": "A tiny puzzle game about finding the missing button on a strange machine.",
+    "type": "Original Game",
     "writeup": "You wake up in front of a machine with exactly one missing button. that's the whole premise. poke around the room, figure out what all the switches do, accidentally make things worse, and eventually discover where the button went. short game, lots of dumb little interactions.",
-    "tags": ["Original Game"]
+    "tags": [
+      "Original Game"
+    ]
   },
   {
     "title": "Recipe Recycler",
-    "description": "An app that suggests meals based on ingredients already in the kitchen.",
+    "desc": "An app that suggests meals based on ingredients already in the kitchen.",
+    "type": "Mobile App",
     "writeup": "Recipe Recycler accepts a rough inventory rather than requiring precise quantities. It prioritizes recipes that use ingredients approaching their expected spoilage window and allows substitutions for common pantry items. The recommendation system should explain why a recipe was suggested instead of presenting an unexplained ranking.",
-    "tags": ["Mobile App", "Home Automation"]
+    "tags": [
+      "Mobile App",
+      "Home Automation"
+    ]
   },
   {
     "title": "Pocket Synth Pets",
-    "description": "A handheld virtual pet whose behavior is controlled through musical notes.",
+    "desc": "A handheld virtual pet whose behavior is controlled through musical notes.",
+    "type": "Electronic Device",
     "writeup": "The device combines virtual-pet mechanics with a miniature synthesizer. Feeding, playing with, and training the pet are performed through short musical sequences rather than conventional buttons alone. Different pets respond to rhythm and pitch in distinct ways, giving the toy a playful musical identity.",
-    "tags": ["Electronic Device", "Original Game"]
+    "tags": [
+      "Electronic Device",
+      "Original Game"
+    ]
   },
   {
     "title": "Night Bus",
-    "description": "A narrative game about passengers sharing one strange late-night bus route.",
+    "desc": "A narrative game about passengers sharing one strange late-night bus route.",
+    "type": "Original Game",
     "writeup": "Night Bus is a compact branching narrative set during a single overnight journey. The player can talk to passengers, observe locations through the window, and decide when to leave the bus. Stories overlap subtly, with details from earlier conversations changing the interpretation of later events.",
-    "tags": ["Original Game"]
+    "tags": [
+      "Original Game"
+    ]
   },
   {
     "title": "Desk Weather",
-    "description": "A physical desktop display showing outdoor conditions through abstract animations.",
+    "desc": "A physical desktop display showing outdoor conditions through abstract animations.",
+    "type": "Electronic Device",
     "writeup": "Desk Weather is a small e-ink or LED display that converts live weather conditions into abstract visual patterns. Rain, wind, temperature, and daylight each influence different elements of the animation. The device is intended to communicate environmental information at a glance without reproducing a conventional weather forecast.",
-    "tags": ["Electronic Device", "Web Tool"]
+    "tags": [
+      "Electronic Device",
+      "Web Tool"
+    ]
   },
   {
     "title": "Three-Minute Town",
-    "description": "A city-building game where each round lasts exactly three minutes.",
+    "desc": "A city-building game where each round lasts exactly three minutes.",
+    "type": "Original Game",
     "writeup": "Every session begins with an empty plot and gives the player three minutes to establish a functioning miniature town. Buildings have simple dependencies and residents develop needs over time. The short format encourages experimentation and repeated runs rather than long-term optimization.",
-    "tags": ["Original Game", "Simulator"]
+    "tags": [
+      "Original Game",
+      "Simulator"
+    ]
   },
   {
     "title": "Oops Calculator",
-    "description": "A deliberately chaotic calculator that remembers and visualizes your mistakes.",
+    "desc": "A deliberately chaotic calculator that remembers and visualizes your mistakes.",
+    "type": "Desktop App",
     "writeup": "this is a calculator for people who hit the wrong button 900 times. it keeps a little timeline of what you typed, highlights weird mistakes, and lets you rewind. maybe it also has a 'what on earth were you doing' button that gives you the history in plain english.",
-    "tags": ["Desktop App", "Web Tool"]
+    "tags": [
+      "Desktop App",
+      "Web Tool"
+    ]
   },
   {
     "title": "Local Legend",
-    "description": "A collaborative map for collecting stories about ordinary neighborhood places.",
+    "desc": "A collaborative map for collecting stories about ordinary neighborhood places.",
+    "type": "Web-Based Platform",
     "writeup": "Local Legend allows users to attach short anecdotes, historical notes, photographs, or fictional stories to locations on a shared map. Entries are presented as community folklore rather than authoritative historical records, with clear attribution and dates. The project should encourage curiosity about familiar surroundings without encouraging users to trespass or expose private information.",
-    "tags": ["Web-Based Platform", "Organization"]
+    "tags": [
+      "Web-Based Platform",
+      "Organization"
+    ]
   },
   {
     "title": "Cable Critter",
-    "description": "A desktop companion that physically reacts when your cables become tangled.",
+    "desc": "A desktop companion that physically reacts when your cables become tangled.",
+    "type": "Electronic Device",
     "writeup": "Cable Critter is a small physical computing project using a cable sensor, LEDs, and a tiny animated display. As cable tension or proximity increases, the creature becomes increasingly distressed and eventually suggests rearranging the desk. The core appeal is comedic feedback for an extremely mundane problem.",
-    "tags": ["Electronic Device", "Organization"]
+    "tags": [
+      "Electronic Device",
+      "Organization"
+    ]
   },
   {
     "title": "Moonbase Janitor",
-    "description": "A cozy simulation game about maintaining a messy lunar research station.",
+    "desc": "A cozy simulation game about maintaining a messy lunar research station.",
+    "type": "Original Game",
     "writeup": "Players work the night shift cleaning rooms, repairing equipment, sorting deliveries, and occasionally discovering odd things left behind by researchers. There is no combat and little time pressure. Progress comes from learning the station's routines, improving tools, and gradually making the moonbase feel like a home.",
-    "tags": ["Original Game", "Simulator"]
+    "tags": [
+      "Original Game",
+      "Simulator"
+    ]
   },
   {
     "title": "Ocean-themed two-player platformer",
-    "description": "A cooperative platformer where two players control marine animals with complementary abilities. Levels are built around tides, currents, and environmental puzzles.",
+    "desc": "A cooperative platformer where two players control marine animals with complementary abilities. Levels are built around tides, currents, and environmental puzzles.",
+    "type": "Original Game",
     "writeup": "Players alternate between controlling a fast-moving dolphin and a heavy sea turtle, with each character able to access areas the other cannot. Dynamic water levels change the geometry of each stage, while optional collectibles unlock alternate color palettes, challenge levels, and small pieces of environmental lore.",
-    "tags": ["Original Game"]
+    "tags": [
+      "Original Game"
+    ]
   },
   {
     "title": "agentic stationary tray",
-    "description": "A little desktop gadget that keeps track of the stationery you constantly lose. It uses sensors and a tiny display to tell you where things are and what you were doing when you put them down.",
+    "desc": "A little desktop gadget that keeps track of the stationery you constantly lose. It uses sensors and a tiny display to tell you where things are and what you were doing when you put them down.",
+    "type": "Electronic Device",
     "writeup": "The tray contains weight sensors, NFC detection, and a low-power microcontroller connected to a companion desktop application. It can identify tagged objects such as pens, USB drives, and scissors, then surface contextual reminders such as “you left your blue pen next to the laptop.” A local-first event log keeps the device useful without sending desk activity to a cloud service.",
-    "tags": ["Electronic Device", "Organization", "Desktop App"]
+    "tags": [
+      "Electronic Device",
+      "Organization",
+      "Desktop App"
+    ]
   },
   {
     "title": "Study room noise simulator",
-    "description": "A browser-based tool that recreates realistic study environments for students who have trouble concentrating in complete silence. Users can mix conversations, keyboards, rain, ventilation, and occasional background interruptions.",
+    "desc": "A browser-based tool that recreates realistic study environments for students who have trouble concentrating in complete silence. Users can mix conversations, keyboards, rain, ventilation, and occasional background interruptions.",
+    "type": "Simulator",
     "writeup": "The simulator uses layered procedural audio rather than looping a single recording. Users can choose a target environment and distraction intensity, while an adaptive mode gradually introduces interruptions as concentration improves. Presets can be shared through URLs so students can reproduce the same environment across devices.",
-    "tags": ["Simulator", "Education", "Web Tool"]
+    "tags": [
+      "Simulator",
+      "Education",
+      "Web Tool"
+    ]
   },
   {
     "title": "Inbox-to-calendar browser extension",
-    "description": "this would basically read emails while youre looking at them and be like hey this sounds like an appointment, want me to put it on your calendar lol. also works for deadlines.",
+    "desc": "this would basically read emails while youre looking at them and be like hey this sounds like an appointment, want me to put it on your calendar lol. also works for deadlines.",
+    "type": "Browser Extension",
     "writeup": "The extension extracts dates, times, locations, and implied commitments from the currently visible message without requiring broad mailbox access. Suggested events are presented in a compact confirmation panel, with ambiguous information highlighted for review. A lightweight rules engine handles common scheduling language while optional local language-model inference can process less structured messages.",
-    "tags": ["Browser Extension", "Organization"]
+    "tags": [
+      "Browser Extension",
+      "Organization"
+    ]
   },
   {
     "title": "Accessible transit companion",
-    "description": "A mobile application designed to help riders with visual, hearing, cognitive, or mobility-related accessibility needs navigate public transportation. It provides step-by-step trip guidance that adapts to the user's selected requirements.",
+    "desc": "A mobile application designed to help riders with visual, hearing, cognitive, or mobility-related accessibility needs navigate public transportation. It provides step-by-step trip guidance that adapts to the user's selected requirements.",
+    "type": "Mobile App",
     "writeup": "The application converts a transit itinerary into individualized instructions such as identifying accessible entrances, elevator locations, platform changes, and quieter boarding areas. Users can configure notification intensity and preferred communication methods, including large visual prompts, vibration patterns, and spoken instructions. Offline route caching ensures that essential trip information remains available during connectivity gaps.",
-    "tags": ["Mobile App", "Accessibility", "Education"]
+    "tags": [
+      "Mobile App",
+      "Accessibility",
+      "Education"
+    ]
   },
   {
     "title": "Tiny greenhouse autopilot",
-    "description": "A small home automation controller for tabletop greenhouses that handles lighting, watering, ventilation, and temperature without requiring constant tinkering. The system is aimed at people who want to grow plants but forget about them constantly.",
+    "desc": "A small home automation controller for tabletop greenhouses that handles lighting, watering, ventilation, and temperature without requiring constant tinkering. The system is aimed at people who want to grow plants but forget about them constantly.",
+    "type": "Electronic Device",
     "writeup": "A central controller monitors soil moisture, ambient temperature, humidity, and light exposure before making scheduled or sensor-driven adjustments. Users can create plant profiles with preferred environmental ranges, and the controller can gradually adjust lighting schedules to avoid abrupt changes. A mobile dashboard provides historical graphs and alerts when conditions remain outside the configured range.",
-    "tags": ["Home Automation", "Electronic Device", "Mobile App"]
+    "tags": [
+      "Home Automation",
+      "Electronic Device",
+      "Mobile App"
+    ]
   },
   {
     "title": "Personal finance sandbox",
-    "description": "A web app where people can experiment with imaginary budgets and financial decisions without connecting any real accounts. It is basically a safe place to answer “what if I did this?” before actually doing it.",
+    "desc": "A web app where people can experiment with imaginary budgets and financial decisions without connecting any real accounts. It is basically a safe place to answer “what if I did this?” before actually doing it.",
+    "type": "Web-Based Platform",
     "writeup": "Users construct hypothetical income, recurring expenses, debt payments, savings goals, and major purchases, after which the platform generates projected cash-flow scenarios. Multiple scenarios can be forked from the same baseline and compared on a timeline. The system intentionally avoids executing transactions or presenting projections as financial advice.",
-    "tags": ["Finance", "Web-Based Platform", "Education"]
+    "tags": [
+      "Finance",
+      "Web-Based Platform",
+      "Education"
+    ]
   },
   {
     "title": "Desktop focus weather",
-    "description": "A desktop app that changes the visual atmosphere of your workspace depending on how long you've been focused. It starts calm and sunny, gets progressively stranger during long sessions, and resets when you take a proper break.",
+    "desc": "A desktop app that changes the visual atmosphere of your workspace depending on how long you've been focused. It starts calm and sunny, gets progressively stranger during long sessions, and resets when you take a proper break.",
+    "type": "Desktop App",
     "writeup": "The application runs as a lightweight background process and tracks active-work intervals rather than individual application contents. Its environment engine can transition between procedural scenes, ambient audio, and subtle desktop effects according to configurable focus milestones. Users can define break thresholds, whitelist applications, and disable all visual effects while retaining the timer functionality.",
-    "tags": ["Desktop App", "Organization"]
+    "tags": [
+      "Desktop App",
+      "Organization"
+    ]
   },
   {
     "title": "Modular robot pet game mod",
-    "description": "A game mod that adds a little customizable robot companion that learns how you play. give it different modules and it starts developing different behaviors depending on what you keep asking it to do.",
+    "desc": "A game mod that adds a little customizable robot companion that learns how you play. give it different modules and it starts developing different behaviors depending on what you keep asking it to do.",
+    "type": "Game Mod",
     "writeup": "The companion is assembled from interchangeable movement, perception, utility, and personality modules, allowing players to build substantially different robot behaviors. Its behavior model records gameplay interactions and adjusts a set of non-player-facing preferences over time rather than simply unlocking scripted upgrades. Rare modules can be discovered through exploration, creating a lightweight collection and experimentation loop.",
-    "tags": ["Game Mod", "Original Game"]
+    "tags": [
+      "Game Mod",
+      "Original Game"
+    ]
   },
   {
     "title": "Idea auction board",
-    "description": "A web-based platform where people post unfinished product ideas and other users allocate a limited amount of fictional currency to the ones they think deserve development. The goal is to measure interest without pretending that votes alone prove an idea is good.",
+    "desc": "A web-based platform where people post unfinished product ideas and other users allocate a limited amount of fictional currency to the ones they think deserve development. The goal is to measure interest without pretending that votes alone prove an idea is good.",
+    "type": "Web-Based Platform",
     "writeup": "Each user receives a replenishing pool of credits that can be distributed across ideas, with higher commitment costing proportionally more credits. Ideas maintain public revision histories so authors can incorporate feedback while preserving the original proposal. Optional evaluation rounds allow participants to score feasibility, novelty, usefulness, and implementation complexity separately from overall enthusiasm.",
-    "tags": ["Web-Based Platform", "Finance", "Organization"]
+    "tags": [
+      "Web-Based Platform",
+      "Finance",
+      "Organization"
+    ]
   }
 ]
