@@ -27,12 +27,19 @@ async function addAuthorNames(ctx : QueryCtx, ar : Array<any>) {
     ar[i].authorname = await theAuthorName(ctx, ar[i].author);
   }
 }
+async function addImageUrls(ctx : QueryCtx, ar : Array<any>) {
+  for (let i=0;i<ar.length;++i) {
+    const urls = await Promise.all((ar[i].images ?? []).map((id : Id<"_storage">)=>ctx.storage.getUrl(id)));
+    ar[i].imageUrls = urls.filter((u)=>u);
+  }
+}
 function niceTry() { throw new ConvexError("Nice try."); }
 
 export const listIdeas = query({
   args: {}, async handler(ctx) {
     const ideas = await ctx.db.query("ideas").collect();
     await addAuthorNames(ctx, ideas);
+    await addImageUrls(ctx, ideas);
     return ideas;
   }
 })

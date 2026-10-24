@@ -81,6 +81,11 @@ function IdeaCard({ d, index, indexfunc, currentIndex }) {
       </div>
       <div>{d.authorname}</div>
       <div>{new Date(d._creationTime).toLocaleDateString()}</div>
+      {d.imageUrls?.length > 0 && (
+        <div className="idea-images">
+          {d.imageUrls.map((u) => <img key={u} src={u} />)}
+        </div>
+      )}
 
       <Authenticated>
         <AuthUpvoteButton
@@ -154,6 +159,11 @@ function IdeaModal({ ideas, index, indexfunc }) {
           <h1>{d.title}</h1>
           <p>by {d.authorname}</p>
           <h1>{d.desc}</h1>
+          {d.imageUrls?.length > 0 && (
+            <div className="ideamodal-images">
+              {d.imageUrls.map((u) => <img key={u} src={u} />)}
+            </div>
+          )}
           <div
             className="ideamodal-link"
             onClick={() => nav(`/idea?id=${d._id}`)}
