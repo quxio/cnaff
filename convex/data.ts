@@ -22,6 +22,11 @@ async function theAuthorName(ctx : QueryCtx, id: Id<"users">) {
   const user = await ctx.runQuery(api.users.get, {id: id});
   return user ? user.name : "";
 }
+async function theBough(ctx: QueryCtx, id: Id<"boughs">) {
+  const bough = await ctx.db.get("boughs", id);
+  if (!bough) { throw new ConvexError("Bough not found."); }
+  return bough;
+}
 async function addAuthorNames(ctx : QueryCtx, ar : Array<any>) {
   for (let i=0;i<ar.length;++i) {
     ar[i].authorname = await theAuthorName(ctx, ar[i].author);
@@ -97,6 +102,7 @@ export const fetchTopics = query({
     return map;
   }
 })
+
 export const addIdea = mutation({
   args: {
     parent: v.nullable(v.id("ideas")),
@@ -108,7 +114,10 @@ export const addIdea = mutation({
   },
   async handler(ctx, {parent, title, desc, amend, type, images}) {
     const userId = await ctx.runQuery(api.users.getAuthId);
-    if (parent) { await theIdea(ctx, parent); } await theType(ctx, type);
+
+    let b : null | Id<"boughs"> = null;
+    let pData : any = null;
+    if (parent) { pData = await theIdea(ctx, parent); b = pData.bough; } await theType(ctx, type);
     if (!title || !desc || !amend) { niceTry(); }
 
     let parentId : null | Id<"ideas"> = parent;
@@ -120,15 +129,45 @@ export const addIdea = mutation({
       parentId = parentData.parent;
       ++cnt;
     }
+    if (!b) {
+      b = await ctx.db.insert("boughs", {});
+    }
+
     const add = await ctx.db.insert("ideas", {
-      author: userId, break: Date.now(), type: type,
+      author: userId, break: Date.now(), type: type, bough: b,
       parent, title, desc,
       upvotesTotal: 0n, upvotesArray: [], nodesPrev: cnt, nodesTotal: cnt+1n, amendsTotal: 0n,
       images,
     })
     await ctx.db.insert("amends", {author: userId, idea: add, text: amend, inspoComments: []});
 
-    return 1;
+    if (parent) {
+      const bData = await theBough(ctx, b);
+      if (!bData.json) { await ctx.db.patch("boughs", b, {json: `{"_id":"${parent}","name":"${pData.title}","children":[{"_id":"${add}","name":"${title}","children":[]}]}`}); return; }
+
+      const data : any = JSON.parse(bData.json);
+
+      function TRY(object : any) {
+        if (object._id as Id<"ideas"> === parent) { return object; }
+        for (const child of object.children) { // Invariant: "children": [] must always exist!
+          const result : any = TRY(child);
+          if (result === null) { continue; }
+          return result;
+        }
+      }
+
+      const newleaf = {_id: add, name: title, children:[]};
+      TRY(data).children.push(newleaf);
+      const newdata = JSON.stringify(data);
+
+      await ctx.db.patch("boughs", b, {json: newdata});
+
+    }
+  }
+})
+export const getBough = query({
+  args: {bough: v.id("boughs")}, async handler(ctx, {bough}) {
+    return await theBough(ctx, bough);
   }
 })
 export const allComments = query({
@@ -152,9 +191,6 @@ export const addComment = mutation({
     });
   }
 })
-
-
-
 
 
 

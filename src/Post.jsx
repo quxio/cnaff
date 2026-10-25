@@ -1,7 +1,7 @@
 import { Navbarcontext } from "@/Navbarcontext.jsx";
 import { useContext, useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { api } from "../convex/_generated/api";
 import {
   MDXEditor,
@@ -80,7 +80,7 @@ function ImageDrop({ images, setImages }) {
           : "Drop your mock-ups here, or click to choose..."}
       </span>
       {images.map((im) => (
-        <img key={im.storageId} src={im.preview} />
+        <img key={im.storageId} alt="thumbnail" src={im.preview} />
       ))}
     </label>
   );
@@ -99,7 +99,10 @@ export default function Post() {
   const addIdea = useMutation(api.data.addIdea);
   const nav = useNavigate();
 
+  const [params] = useSearchParams();
+  const parent = params.get("id") ?? null;
   async function submit() {
+
     const missing = [
       !title.trim() && "title",
       !desc.trim() && "description",
@@ -112,7 +115,7 @@ export default function Post() {
     }
     try {
       await addIdea({
-        parent: null,
+        parent,
         title,
         desc,
         amend,
@@ -128,19 +131,30 @@ export default function Post() {
 
   useEffect(() => {
     if (nc.post === true) {
-      console.log(
-        title,
-        desc,
-        amend,
-        images.map((im) => im.storageId),
-      );
+      // console.log(
+      //   title,
+      //   desc,
+      //   amend,
+      //   images.map((im) => im.storageId),
+      // );
       nc.setPost(false);
 
       // added this for submission.
       // I don't really like useEffect() is a good way to handle submit but it works so :)
-      submit();
+      submit()
     }
   }, [nc.post]);
+
+  useEffect(() => {
+    function beforeunloadfunc(e) {
+      const unsaved = title||desc||amend||images||type;
+      if (unsaved) { e.preventDefault(); }
+      e.returnValue = unsaved;
+      return unsaved;
+    }
+    window.addEventListener("beforeunload", beforeunloadfunc);
+    return ()=>window.removeEventListener("beforeunload", beforeunloadfunc);
+  });
 
   return (
     <div className="post">

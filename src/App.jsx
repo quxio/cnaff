@@ -6,7 +6,7 @@ import {
 } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { RibbitAvatar } from "ribbit-canvas/react";
 
@@ -46,19 +46,23 @@ function AuthUpvoteButton({ _id, upvotesArray, upvotesTotal }) {
   const downvote = useMutation(api.data.downvoteIdea);
 
   return (
-    <button
-      style={{ width: "auto" }}
-      onClick={(e) => {
-        e.stopPropagation();
-        if (upvotable) {
-          upvote({ id: _id });
-        } else {
-          downvote({ id: _id });
-        }
-      }}
-    >
-      {upvotable ? `upvotes: ${upvotesTotal}` : `upvoted!!!! (${upvotesTotal})`}
-    </button>
+    <div>
+      <button
+        style={{ width: "auto" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (upvotable) {
+            upvote({ id: _id });
+          } else {
+            downvote({ id: _id });
+          }
+        }}
+      >
+        {upvotable ? `upvotes: ${upvotesTotal}` : `upvoted!!!! (${upvotesTotal})`}
+      </button>
+      <Link to={`/post?id=${_id}`}>FORK</Link>
+    </div>
+
   );
 }
 
@@ -83,7 +87,7 @@ function IdeaCard({ d, index, indexfunc, currentIndex }) {
       <div>{new Date(d._creationTime).toLocaleDateString()}</div>
       {d.imageUrls?.length > 0 && (
         <div className="idea-images">
-          {d.imageUrls.map((u) => <img key={u} src={u} />)}
+          {d.imageUrls.map((u) => <img key={u} alt="thumbnail"  src={u} />)}
         </div>
       )}
 
@@ -126,7 +130,7 @@ function FeedRight() {
         <li>Visit its page to make comments and view history</li>
         <li>View related and derived ideas over here</li>
       </ul>
-      <RibbitAvatar seed="aksdjhfghbjfad" pattern="wave" size={50} />
+      {/*<RibbitAvatar seed="aksdjhfghbjfad" pattern="wave" size={50} />*/}
     </div>
   );
 }
@@ -161,7 +165,7 @@ function IdeaModal({ ideas, index, indexfunc }) {
           <h1>{d.desc}</h1>
           {d.imageUrls?.length > 0 && (
             <div className="ideamodal-images">
-              {d.imageUrls.map((u) => <img key={u} src={u} />)}
+              {d.imageUrls.map((u) => <img key={u} alt="thumbnail"  src={u} />)}
             </div>
           )}
           <div

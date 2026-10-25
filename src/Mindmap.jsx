@@ -5,9 +5,10 @@ import * as d3 from "d3";
 // data shape: { name, children?: [ ...same shape ] }
 // click a filled node to expand/collapse it, drag to pan, scroll to zoom
 
-const branchColors = ["#6179A9", "#2a9d8f", "#e76f51", "#c9a227", "#6a994e", "#9b5de5", "#d6577a", "#4d96ff"];
+// const branchColors = ["#6179A9", "#2a9d8f", "#e76f51", "#c9a227", "#6a994e", "#9b5de5", "#d6577a", "#4d96ff"];
+const branchColors = ["#6678A5"];
 const duration = 500;
-const nodeRadius = 6;
+const nodeRadius = 10;
 const depthSpacing = 160;
 
 function radialPoint(x, y) {
@@ -38,7 +39,7 @@ function collapseBelow(d, depth) {
   (d.children || d._children || []).forEach((c) => collapseBelow(c, depth));
 }
 
-export default function Mindmap({ data, height = 600, initialDepth = 2, onNodeClick }) {
+export default function Mindmap({ data, height = 800, initialDepth = 2, onNodeClick }) {
   const svgRef = useRef(null);
   const api = useRef({});
 
@@ -101,20 +102,20 @@ export default function Mindmap({ data, height = 600, initialDepth = 2, onNodeCl
         .attr("transform", (d) => d.depth === 0 ? "translate(0,0)" : `translate(${radialPoint(d.x, d.y)})`);
 
       nodeUpdate.select("circle")
-        .attr("r", (d) => d.depth === 0 ? nodeRadius * 2 : nodeRadius)
+        .attr("r", (d) => nodeRadius)
         .style("fill", (d) => d.depth === 0 || d._children ? branchColor(d) : "white")
         .style("stroke", branchColor)
-        .style("stroke-width", (d) => d.depth === 0 ? 3 : 2)
-        .style("cursor", (d) => d.children || d._children ? "pointer" : "default");
+        .style("stroke-width", (d) => 1 )
+        .style("cursor", (d) => d.children || d._children ? "pointer" : "grab");
 
       nodeUpdate.select("text")
         .attr("x", (d) => d.depth === 0 ? 0 : d.x < 180 ? 12 : -12)
         .attr("text-anchor", (d) => d.depth === 0 ? "middle" : d.x < 180 ? "start" : "end")
         .attr("transform", (d) => d.depth === 0 ? "translate(0,-20)" : "")
-        .style("fill", (d) => d.depth === 0 ? "black" : branchColor(d))
-        .style("font-size", (d) => d.depth === 0 ? "18px" : d.depth === 1 ? "14px" : "12px")
-        .style("font-weight", (d) => d.depth <= 1 ? "600" : "400")
-        .style("cursor", onNodeClick ? "pointer" : "default");
+        .style("fill", (d) => d.depth === 0 ? "#CE5A5E" : branchColor(d))
+        .style("font-size", (d) => d.depth === 0 ? "20px" : "18px")
+        .style("font-weight", (d) => "400")
+        .style("cursor", onNodeClick ? "pointer" : "grab");
 
       const nodeExit = node.exit().transition().duration(duration)
         .attr("transform", () => `translate(${radialPoint(source.x, source.y)})`)
@@ -136,7 +137,7 @@ export default function Mindmap({ data, height = 600, initialDepth = 2, onNodeCl
         .attr("d", link)
         .style("stroke", (d) => branchColor(d.target))
         .style("stroke-opacity", (d) => d.target.depth <= 1 ? 0.6 : 0.4)
-        .style("stroke-width", (d) => d.target.depth === 1 ? "3px" : d.target.depth === 2 ? "2px" : "1.5px");
+        .style("stroke-width", (d) => /*d.target.depth*/ "1.5px");
 
       path.exit().transition().duration(duration)
         .attr("d", () => {
@@ -162,9 +163,9 @@ export default function Mindmap({ data, height = 600, initialDepth = 2, onNodeCl
   return (
     <div className="mindmap" style={{ height }}>
       <div className="mindmap-controls">
-        <button onClick={() => api.current.fit?.()}>Fit</button>
-        <button onClick={() => api.current.expand?.()}>Expand all</button>
-        <button onClick={() => api.current.collapse?.()}>Collapse</button>
+        {/*<button onClick={() => api.current.fit?.()}>Fit</button>*/}
+        {/*<button onClick={() => api.current.expand?.()}>Expand all</button>*/}
+        {/*<button onClick={() => api.current.collapse?.()}>Collapse</button>*/}
       </div>
       <svg ref={svgRef} className="mindmap-svg" />
     </div>

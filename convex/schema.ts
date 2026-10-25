@@ -34,10 +34,15 @@ export default defineSchema({
     .index("topic", ["topic"])
   ,
 
+  boughs: defineTable({
+    json: v.optional(v.string()),
+  }),
+
   ideas: defineTable({
     author: v.id("users"),
     parent: v.nullable(v.id("ideas")),
     break: v.number(), // date/time
+    bough: v.id("boughs"),
 
     type: v.id("types"),
 
@@ -49,6 +54,7 @@ export default defineSchema({
     nodesTotal: v.int64(),
     upvotesTotal: v.int64(),
     upvotesArray: v.array(v.id("users")),
+
     images: v.optional(v.array(v.id("_storage"))),
   })
     .index("author", ["author"])

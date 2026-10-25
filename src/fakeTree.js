@@ -1,5 +1,6 @@
 // FAKE prototype data for the Tree tab: made-up "inspired by" relationships between ideas from populate.json
 // replace with a real query once ideas can reference each other
+
 const fakeTree = {
   name: "Pocket Weather Station",
   children: [

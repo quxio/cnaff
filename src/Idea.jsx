@@ -4,7 +4,10 @@ import { api } from "../convex/_generated/api";
 import { useSearchParams } from "react-router";
 import Oops from "./Oops.jsx";
 import Mindmap from "./Mindmap.jsx";
-import fakeTree from "./fakeTree.js";
+
+// function parseLineage(object, parent) {
+//
+// }
 
 export default function Idea() {
 
@@ -12,6 +15,11 @@ export default function Idea() {
   const [page, setPage] = useState(0);
   const d = useQuery(api.data.getIdea, idea ? { id: idea } : "skip");
   const comments = useQuery(api.data.allComments, idea ?  { idea : idea } : "skip");
+
+  const boughdata = useQuery(api.data.getBough, d ? {bough: d.bough} : "skip");
+  const bough = boughdata ? JSON.parse(boughdata.json) : null;
+  // const lineage = bough ? parseLineage(bough, d._id) : null;
+
   // const addComment = useMutation(api.data.addComment);
 
   return (
@@ -35,14 +43,14 @@ export default function Idea() {
                   <hr/>
                   <h2>Comments</h2>
                   <div className="comments">
-                    <div>
+                    <div className="o">
+                      <div></div>
                       <div className="c">comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/></div>
                       <div className="indent">
-                        <div></div>
-                        <div>
+                        <div className="o">
+                          <div></div>
                           <div className="c"><div></div>comment AAAAAAAAAAA</div>
                           <div className="indent">
-                            <div></div>
                             <div><div className="c"><div></div>response BBBBBBBBBB</div></div>
                           </div>
                         </div>
@@ -50,10 +58,10 @@ export default function Idea() {
                       </div>
                     </div>
 
-                    <div>
+                    <div className="o">
+                      <div></div>
                       <div className="c">comment BBBBBBBBBB</div>
                       <div className="indent">
-                        <div>hi</div>
                         <div><div className="c"><div></div>response CCCCCCCCCC</div></div>
                         <div><div className="c"><div></div>response DDDDDDDDDDDD</div></div>
                       </div>
@@ -83,7 +91,7 @@ export default function Idea() {
                 </div>
               :
                 <div>
-                  <Mindmap data={fakeTree} />
+                  {bough && <Mindmap data={bough} /> }
                 </div>
             }
           </div>
