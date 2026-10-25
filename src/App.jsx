@@ -109,7 +109,7 @@ function IdeaCard({ d, index, indexfunc, currentIndex }) {
       className={currentIndex === index ? "idea idea-picked" : "idea"}
       onClick={() => indexfunc(index)}
     >
-      <img className="ideaframe" alt="z" src={frame} />
+      <img className="ideaframe" alt="z" src={frame}  />
       <div className="ideatitle">{d.title}</div>
       <div>{d.authorname}</div>
       <div>{new Date(d._creationTime).toLocaleDateString()}</div>
@@ -125,15 +125,6 @@ function IdeaCard({ d, index, indexfunc, currentIndex }) {
         <Authenticated><div onClick={(e)=>{e.stopPropagation();nav(`/post?id=${d._id}`);}}><GoGitBranch /><div>{`${d.nodesTotal}/${d.nodesPrev}`}</div></div></Authenticated>
         <Unauthenticated><div onClick={(e)=>{e.stopPropagation();nav("/login");}}><GoGitBranch /><div>{`${d.nodesTotal}/${d.nodesPrev}`}</div></div></Unauthenticated>
       </div>
-
-      <div>
-        {d.nodesPrev === 0n
-          ? d.nodesTotal > 1
-            ? `nodes: ${d.nodesTotal}`
-            : ""
-          : `nodes: ${d.nodesTotal}, depth ${d.nodesPrev + 1n} remix`}
-      </div>
-      <div>notsaved</div>
     </div>
   );
 }

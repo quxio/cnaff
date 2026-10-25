@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import Oops from "./Oops.jsx";
 import Mindmap from "./Mindmap.jsx";
-import { BsArrowReturnRight } from "react-icons/bs";
-import image from "./assets/userimage01.webp";
+import ForkMessage from "./ForkMessage.jsx";
 
 // function parseLineage(object, parent) {
 //
@@ -41,13 +40,8 @@ export default function Idea() {
             {
               page===0?
                 <div>
-                  {p &&
-                    <div className="forkmessage">
-                      <BsArrowReturnRight/>
-                      <div>Inspired by "{p.title}" by <span className="standardprofile"><img src={image} alt="profile"/><div>{p.authorname}</div></span></div>
-                    </div>
-                  }
-                  <h1>{d.title}</h1>
+                  {p && <ForkMessage id={p._id} title={p.title} authorname={p.authorname} />}
+                  <div className="ii-title">{d.title}</div>
                   <p>by {d.authorname}</p>
                   <hr/>
                   <h2>Comments</h2>

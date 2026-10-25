@@ -275,14 +275,14 @@ body { background-color: #e0e0da; overflow: clip; }
     width: 100%; height: 100%; display: flex; flex-flow: column nowrap; justify-content: center; align-items: center;
 }
 
-.post > div {
+.post-inner {
     border: 1px solid black; border-radius: 8px;
     width: 1000px; height: 1000px; max-width: 95vw;
     display: grid; grid-template: repeat(7, 1fr) / repeat(7, 1fr);
     overflow: clip;
     padding: 7px; gap: 7px;
 }
-.post > div div {
+.post-inner div {
     color: gray;
     border-radius: 2px;
 }
@@ -316,11 +316,11 @@ body { background-color: #e0e0da; overflow: clip; }
 .post .amend > div { position: static; height: 100%; overflow-y: auto; }
 .post .amend div { color: black; }
 .post textarea { width: 100%; height: 100%; resize: none; border: none; padding: 10px; cursor: text; }
-.post > div > div > div {
+.post-inner > div > div {
     position: absolute;
     bottom: 3px; right: 3px;
 }
-.post > div > div { position: relative; }
+.post-inner > div { position: relative; }
 
 
 /*======================[ Feed ] ======================*/
@@ -384,6 +384,7 @@ body { background-color: #e0e0da; overflow: clip; }
     left: -10px;
     top: -17px;
     width: 618px;
+    pointer-events: none;
 }
 .idea:hover {
     filter: brightness(80%) saturate(80%);
@@ -404,6 +405,7 @@ body { background-color: #e0e0da; overflow: clip; }
     display: flex; flex-flow: row nowrap; gap: 4px; align-items: center;
     padding: 2px;
     border-radius: 3px;
+    cursor: pointer;
 }
 .upvotes-container * {
     cursor: inherit;
@@ -426,6 +428,14 @@ body { background-color: #e0e0da; overflow: clip; }
 .ideatitle:hover {
     text-decoration: underline;
 }
+.ii-parent-title {
+    color: #425883;
+    cursor: pointer;
+}
+.ii-title {
+    font-size: 32px;
+    font-weight: bold;
+}
 
 
 /*======================[ Idea ] ======================*/
@@ -435,6 +445,7 @@ body { background-color: #e0e0da; overflow: clip; }
     display: flex; flex-flow: column nowrap;
     padding: 20px;
     gap: 20px;
+    overflow-x: clip;
 }
 
 .toolbar {
@@ -487,17 +498,24 @@ body { background-color: #e0e0da; overflow: clip; }
     border-radius: 9px;
     border: 2px double #6179A9;
     width: min(400px, 80%);
+    margin-bottom: 10px;
 }
 .forkarrow {
     width: 10px;
 }
 .standardprofile {
-    width: auto;
-    height: 10px;
+    height: 20px;
     border-radius: 2763px;
-    border: 1px solid lightgray;
-    background-color: #B4BDC9;
+    background-color: #d5d5da;
     display: flex; flex-flow: row nowrap; align-items: center;
+    overflow: clip;
+    padding: 3px;
+    color: gray;
+    gap: 3px;
+}
+.standardprofile img {
+    height: 14px;
+    border-radius: 7px;
 }
 
 
@@ -555,6 +573,7 @@ body { background-color: #e0e0da; overflow: clip; }
     display: flex; flex-flow: column nowrap;
     align-items: flex-end;
     gap: 4px; padding: 4px;
+    overflow-x: clip;
 }
 .comments * {
     font-size: 16px;

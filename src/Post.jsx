@@ -20,6 +20,7 @@ import {
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import "./mdxeditor.css";
+import ForkMessage from "./ForkMessage.jsx";
 
 function ImageDrop({ images, setImages }) {
   const generateUploadUrl = useMutation(api.data.generateUploadUrl);
@@ -101,6 +102,7 @@ export default function Post() {
 
   const [params] = useSearchParams();
   const parent = params.get("id") ?? null;
+  const p = useQuery(api.data.getIdea, parent ? {id: parent} : "skip")
   async function submit() {
 
     const missing = [
@@ -158,7 +160,8 @@ export default function Post() {
 
   return (
     <div className="post">
-      <div>
+      {p && <ForkMessage id={p._id} authorname={p.authorname} title={p.title} /> }
+      <div className="post-inner">
         <ImageDrop images={images} setImages={setImages} />
         <div className="posttype">
           <select value={type} onChange={(e) => setType(e.currentTarget.value)}>
