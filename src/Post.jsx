@@ -118,7 +118,7 @@ export default function Post() {
         parent,
         title,
         desc,
-        amend,
+        init: amend,
         type,
         images: images.map((im) => im.storageId),
       });

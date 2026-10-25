@@ -114,7 +114,7 @@ body { background-color: #e0e0da; overflow: clip; }
 .postwrapper {
     display: flex; flex-flow: row nowrap; align-items: center;
     width: auto; height: auto;
-    gap: 7px;
+    gap: 20px;
 }
 
 .profile-outer {
@@ -443,6 +443,27 @@ body { background-color: #e0e0da; overflow: clip; }
 
 .idea-view {
     width: 100%; height: auto;
+}
+
+.forkmessage {
+    height: 40px;
+    display: flex; flex-flow: row nowrap; align-items: center;
+    padding: 20px;
+    gap: 20px;
+    border-radius: 9px;
+    border: 2px double #6179A9;
+    width: min(400px, 80%);
+}
+.forkarrow {
+    width: 10px;
+}
+.standardprofile {
+    width: auto;
+    height: 10px;
+    border-radius: 2763px;
+    border: 1px solid lightgray;
+    background-color: #B4BDC9;
+    display: flex; flex-flow: row nowrap; align-items: center;
 }
 
 

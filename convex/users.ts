@@ -3,12 +3,12 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 import { ConvexError, v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 
-async function theAuthUserId(ctx : QueryCtx) {
+export async function theAuthUserId(ctx : QueryCtx) {
   const userId = await getAuthUserId(ctx);
   if (!userId) { throw new ConvexError("Not authenticated."); }
   return userId;
 }
-async function theUser(ctx : QueryCtx, id: Id<"users">) {
+export async function theUser(ctx : QueryCtx, id: Id<"users">) {
   const user = await ctx.db.get("users", id);
   if (!user) { return new ConvexError("User not found."); }
   return user

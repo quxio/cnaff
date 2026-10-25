@@ -52,8 +52,9 @@ function Navbar() {
           nav(0);
         }}
       />
+
       <div style={{ width: 0, flexGrow: searching ? "0" : "1" }}></div>
-      {loc && loc.pathname === "/" &&
+      {loc?.pathname === "/" &&
         <div className={searching ? "search-outer esearch-outer" : "search-outer"} onFocus={()=>setSearching(true)} onBlur={()=>setSearching(false)}>
           <input placeholder="Search..." />
         </div>
@@ -61,21 +62,23 @@ function Navbar() {
       <Authenticated>
         <div className="postwrapper">
           {
-            loc && loc.pathname === "/post" ?
+            loc?.pathname === "/post" ?
               <div className="post-button" onClick={()=>nc.setPost(true)}><div>post</div></div>
               :
               <div className="post-button" onClick={()=>nav("/post")}><div>+</div></div>
           }
-          <div className="post-button"><div>&#x2606;</div></div>
-        <Profile/>
+          <Profile/>
         </div>
       </Authenticated>
       <Unauthenticated>
-        { loc && loc.pathname !== "/login" &&
-          <div className="login-button" onClick={()=>nav("/login")}>
-            <div>Log In</div>
-          </div>
-        }
+        <div className="postwrapper">
+          {loc?.pathname !== "/login" && <div className="post-button" onClick={()=>nav("/login")}><div>+</div></div>}
+          { loc && loc.pathname !== "/login" &&
+            <div className="login-button" onClick={()=>nav("/login")}>
+              <div>Log In</div>
+            </div>
+          }
+        </div>
       </Unauthenticated>
 
     </div>

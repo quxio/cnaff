@@ -2,6 +2,7 @@ import { query, mutation, QueryCtx } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { api } from "./_generated/api";
+import { theAuthUserId, theUser } from "./users";
 
 async function theIdea(ctx : QueryCtx, id: Id<"ideas">) {
   const idea = await ctx.db.get("ideas", id);
@@ -19,7 +20,7 @@ async function theComment(ctx : QueryCtx, id: Id<"comments">) {
   return comment;
 }
 async function theAuthorName(ctx : QueryCtx, id: Id<"users">) {
-  const user = await ctx.runQuery(api.users.get, {id: id});
+  const user = await theUser(ctx, id);
   return user ? user.name : "";
 }
 async function theBough(ctx: QueryCtx, id: Id<"boughs">) {
@@ -50,12 +51,13 @@ export const listIdeas = query({
 })
 export const getIdea = query({
   args: {id: v.id("ideas")}, async handler(ctx, {id}) {
-    return await theIdea(ctx, id);
+    const idea = await theIdea(ctx, id);
+    return {...idea, authorname: await theAuthorName(ctx, idea.author)};
   }
 })
 export const upvoteIdea = mutation({
   args: {id: v.id("ideas")}, async handler(ctx, {id}) {
-    const userId = await ctx.runQuery(api.users.getAuthId);
+    const userId = await theAuthUserId(ctx)
     const idea = await theIdea(ctx, id);
     if (idea.upvotesArray.includes(userId)) { niceTry(); }
     await ctx.db.patch("ideas", id, {
@@ -65,7 +67,7 @@ export const upvoteIdea = mutation({
 })
 export const downvoteIdea = mutation({
   args: {id: v.id("ideas")}, async handler(ctx, {id}) {
-    const userId = await ctx.runQuery(api.users.getAuthId);
+    const userId = await theAuthUserId(ctx);
     const idea = await theIdea(ctx, id);
     if (!idea.upvotesArray.includes(userId)) { niceTry(); }
     await ctx.db.patch("ideas", id, {
@@ -108,17 +110,17 @@ export const addIdea = mutation({
     parent: v.nullable(v.id("ideas")),
     title: v.string(),
     desc: v.string(),
-    amend: v.string(),
+    init: v.string(),
     type: v.id("types"),
     images: v.optional(v.array(v.id("_storage"))),
   },
-  async handler(ctx, {parent, title, desc, amend, type, images}) {
+  async handler(ctx, {parent, title, desc, init, type, images}) {
     const userId = await ctx.runQuery(api.users.getAuthId);
 
     let b : null | Id<"boughs"> = null;
     let pData : any = null;
     if (parent) { pData = await theIdea(ctx, parent); b = pData.bough; } await theType(ctx, type);
-    if (!title || !desc || !amend) { niceTry(); }
+    if (!title || !desc || !init) { niceTry(); }
 
     let parentId : null | Id<"ideas"> = parent;
     let cnt = 0n;
@@ -134,12 +136,11 @@ export const addIdea = mutation({
     }
 
     const add = await ctx.db.insert("ideas", {
-      author: userId, break: Date.now(), type: type, bough: b,
+      author: userId, break: Date.now(), type: type, bough: b, init: init,
       parent, title, desc,
       upvotesTotal: 0n, upvotesArray: [], nodesPrev: cnt, nodesTotal: cnt+1n, amendsTotal: 0n,
       images,
     })
-    await ctx.db.insert("amends", {author: userId, idea: add, text: amend, inspoComments: []});
 
     if (parent) {
       const bData = await theBough(ctx, b);
@@ -191,7 +192,13 @@ export const addComment = mutation({
     });
   }
 })
-
+export const addAmend = mutation({
+  args: {idea: v.id("ideas"), text: v.string()}, async handler (ctx, {idea, text}) {
+    await theIdea(ctx, idea);
+    const author = await theAuthUserId(ctx);
+    await ctx.db.insert("amends", {idea, text, author, inspoComments: []})
+  }
+})
 
 
 

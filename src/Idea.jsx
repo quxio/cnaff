@@ -4,6 +4,8 @@ import { api } from "../convex/_generated/api";
 import { useSearchParams } from "react-router";
 import Oops from "./Oops.jsx";
 import Mindmap from "./Mindmap.jsx";
+import { BsArrowReturnRight } from "react-icons/bs";
+import image from "./assets/userimage01.webp";
 
 // function parseLineage(object, parent) {
 //
@@ -14,10 +16,11 @@ export default function Idea() {
   const [params] = useSearchParams(); const idea = params.get("id");
   const [page, setPage] = useState(0);
   const d = useQuery(api.data.getIdea, idea ? { id: idea } : "skip");
+  const p = useQuery(api.data.getIdea, d?.parent ? { id: d.parent } : "skip");
   const comments = useQuery(api.data.allComments, idea ?  { idea : idea } : "skip");
 
   const boughdata = useQuery(api.data.getBough, d ? {bough: d.bough} : "skip");
-  const bough = boughdata ? JSON.parse(boughdata.json) : null;
+  const bough = boughdata?.json ? JSON.parse(boughdata.json) : null;
   // const lineage = bough ? parseLineage(bough, d._id) : null;
 
   // const addComment = useMutation(api.data.addComment);
@@ -38,6 +41,12 @@ export default function Idea() {
             {
               page===0?
                 <div>
+                  {p &&
+                    <div className="forkmessage">
+                      <BsArrowReturnRight/>
+                      <div>Inspired by "{p.title}" by <span className="standardprofile"><img src={image} alt="profile"/><div>{p.authorname}</div></span></div>
+                    </div>
+                  }
                   <h1>{d.title}</h1>
                   <p>by {d.authorname}</p>
                   <hr/>
@@ -91,7 +100,7 @@ export default function Idea() {
                 </div>
               :
                 <div>
-                  {bough && <Mindmap data={bough} /> }
+                  {boughdata?.json ? <Mindmap data={bough} /> : <div>This idea doesn't seem to have any forks yet!</div> }
                 </div>
             }
           </div>

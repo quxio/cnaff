@@ -43,6 +43,7 @@ export default defineSchema({
     parent: v.nullable(v.id("ideas")),
     break: v.number(), // date/time
     bough: v.id("boughs"),
+    init: v.string(),
 
     type: v.id("types"),
 
