@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import { RibbitAvatar } from "ribbit-canvas/react";
 import { GoGitBranch } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
+import { GoLinkExternal } from "react-icons/go";
 import { HiThumbUp } from "react-icons/hi";
 import frame from "./assets/frame01.webp";
 
@@ -81,6 +82,8 @@ function IdeaCard({ d, index, indexfunc, currentIndex }) {
       className={currentIndex === index ? "idea idea-picked" : "idea"}
       onClick={() => indexfunc(index)}
     >
+      <div className="quicklink" onClick={(e)=>{e.stopPropagation();nav(`/idea?id=${d._id}`);}}><GoLinkExternal /></div>
+
       <img className="ideaframe" alt="z" src={frame}  />
       <div className="ideaflex">
         <div>

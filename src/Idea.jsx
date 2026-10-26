@@ -6,6 +6,8 @@ import Oops from "./Oops.jsx";
 import Mindmap from "./Mindmap.jsx";
 import ForkMessage from "./ForkMessage.jsx";
 import Markdown from "react-markdown";
+import { MdCancel } from "react-icons/md";
+
 import {
   MDXEditor,
   headingsPlugin,
@@ -24,7 +26,7 @@ import {
 import "@mdxeditor/editor/style.css";
 import "./mdxeditor.css";
 
-function CommentForm({ideaId, authorId, target}) {
+function CommentForm({ideaId, authorId, target, targetFunc}) {
   let [md, setMd] = useState("");
   let [state, setState] = useState(0);
   const addComment = useMutation(api.data.addComment);
@@ -39,6 +41,7 @@ function CommentForm({ideaId, authorId, target}) {
           {self && authorId && self === authorId && <div onMouseDown={()=>setState(2)} className={state===2?"page-button page-button-selected":"page-button"}><div>Amend</div></div>}
         </div>
       </div>
+      {target && <div onClick={()=>targetFunc(null)} className="clicky targetflavor"><div>{state===2?"Merging 1":"Replying to 1"}</div><MdCancel className="x"/></div>}
       <div className="commentform">
         <div>
           <MDXEditor
@@ -159,7 +162,7 @@ export default function Idea() {
                   <hr/>
 
                   <Authenticated>
-                    <CommentForm ideaId={d._id} authorId={d.author} target={null}/>
+                    <CommentForm ideaId={d._id} authorId={d.author} target={'a'}/>
                   </Authenticated>
 
                 </div>

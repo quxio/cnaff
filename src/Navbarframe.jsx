@@ -9,7 +9,6 @@ import logo from "./assets/logo01.png";
 import image from "./assets/userimage01.webp";
 
 function Profile() {
-  const nav = useNavigate();
 
   const user = useQuery(api.users.getAuth);
   const auth = useAuthActions();
@@ -25,7 +24,7 @@ function Profile() {
         <div className="profile-options">
           <div><div>Account</div></div>
           <div><div>Settings</div></div>
-          <div onClick={async()=>{await auth.signOut(); nav("/");}}><div>Log Out</div></div>
+          <div onClick={async()=>await auth.signOut()}><div>Log Out</div></div>
         </div>
       </div>
     </div>

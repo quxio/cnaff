@@ -421,6 +421,16 @@ body { background-color: #e0e0da; overflow: clip; }
 .idea:hover {
     filter: brightness(80%) saturate(80%);
 }
+.quicklink {
+    display: none;
+    opacity: 0;
+    transition: opacity 50ms;
+    position: absolute;
+    top: 12px; right: 12px;
+}
+.idea:hover .quicklink {
+    opacity: 100%;
+}
 .idea-picked {
     filter: brightness(50%) saturate(50%) !important;
 }
@@ -428,18 +438,17 @@ body { background-color: #e0e0da; overflow: clip; }
     display: flex; flex-flow: row nowrap; gap: 5px; font-size: 14px;
     cursor: pointer;
 }
-.upvotes-container div{
+.upvotes-container div, .quicklink{
     display: flex; flex-flow: row nowrap; gap: 4px; align-items: center;
     padding: 2px;
     border-radius: 3px;
     cursor: pointer;
 }
-.upvotes-container * {
+.upvotes-container *, .quicklink * {
     cursor: inherit;
     color: #425883;
-
 }
-.upvotes-container div:hover {
+.upvotes-container div:hover, .quicklink:hover {
     background-color: #788cb4;
 }
 
@@ -571,6 +580,16 @@ body { background-color: #e0e0da; overflow: clip; }
     margin: 20px;
 }
 .commentform * { cursor: inherit; }
+.targetflavor {
+    display: flex; justify-content:center; align-items: center;
+    gap: 4px; padding: 2px; background-color: #B4BDC9; border-radius: 14px;
+    height: 24px;
+    font-size: 16px;
+    margin: 3px;
+}
+.targetflavor:hover .x {
+    color: #8550b6;
+}
 
 
 
