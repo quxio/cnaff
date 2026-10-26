@@ -3,6 +3,7 @@ import { ConvexError, v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { api } from "./_generated/api";
 import { theAuthUserId, theUser } from "./users";
+import { getAuthUserId } from "@convex-dev/auth/server";
 
 async function theIdea(ctx : QueryCtx, id: Id<"ideas">) {
   const idea = await ctx.db.get("ideas", id);
@@ -182,6 +183,7 @@ export const allComments = query({
 export const addComment = mutation({
   args: {idea: v.id("ideas"), comment: v.nullable(v.id("comments")), text: v.string(), isProject: v.boolean()},
   async handler(ctx, {idea, comment, text, isProject}) {
+    await theAuthUserId(ctx);
     await theIdea(ctx, idea);
     if (comment) { await theComment(ctx, comment); }
     if (!text) { niceTry(); }
@@ -194,9 +196,17 @@ export const addComment = mutation({
 })
 export const addAmend = mutation({
   args: {idea: v.id("ideas"), text: v.string()}, async handler (ctx, {idea, text}) {
-    await theIdea(ctx, idea);
+    const i = await theIdea(ctx, idea);
     const author = await theAuthUserId(ctx);
+    if (i.author !== author) { niceTry(); }
+    await ctx.db.patch("ideas", idea, {amendsTotal: i.amendsTotal + 1n});
     await ctx.db.insert("amends", {idea, text, author, inspoComments: []})
+  }
+})
+export const getAmends = query({
+  args: {idea: v.id("ideas")}, async handler (ctx, {idea}) {
+    await theIdea(ctx, idea);
+    return await ctx.db.query("amends").withIndex("idea", (v)=>v.eq("idea", idea)).collect();
   }
 })
 

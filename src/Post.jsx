@@ -3,7 +3,6 @@ import { useContext, useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { useNavigate, useSearchParams } from "react-router";
 import { api } from "../convex/_generated/api";
-
 import {
   MDXEditor,
   headingsPlugin,
@@ -109,7 +108,6 @@ export default function Post() {
   const parent = params.get("id") ?? null;
   const p = useQuery(api.data.getIdea, parent ? {id: parent} : "skip")
   async function submit() {
-
     const missing = [
       !title.trim() && "title",
       !desc.trim() && "description",
@@ -232,7 +230,7 @@ export default function Post() {
                 </div>
                 <div>
                   <GoGitBranch />
-                  <div>{p ? `${p.nodesTotal + 1}/${p.nodesPrev + 1}` : "0/0"}</div>
+                  <div>{p ? `${p.nodesTotal + 1n}/${p.nodesPrev + 1n}` : "0/0"}</div>
                 </div>
               </div>
             </div>

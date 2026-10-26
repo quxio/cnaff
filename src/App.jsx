@@ -112,7 +112,7 @@ function FeedRight() {
       <div>Welcome! Let's get started.</div>
       <ul>
         <li>Click an idea to expand its details</li>
-        <li>Visit its page to comment, attach projects, and view history</li>
+        <li>Visit its page to comment, share projects, and view history</li>
         <li>Search for keywords and filters on the left</li>
         <li>Click the '+' button to start sharing a new idea,<br/>
           or click <GoGitBranch /> to remix an existing idea.</li>

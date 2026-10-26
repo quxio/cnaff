@@ -1,14 +1,93 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, Authenticated } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { useNavigate, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import Oops from "./Oops.jsx";
 import Mindmap from "./Mindmap.jsx";
 import ForkMessage from "./ForkMessage.jsx";
+import Markdown from "react-markdown";
+import {
+  MDXEditor,
+  headingsPlugin,
+  listsPlugin,
+  quotePlugin,
+  thematicBreakPlugin,
+  linkPlugin,
+  markdownShortcutPlugin,
+  toolbarPlugin,
+  UndoRedo,
+  BoldItalicUnderlineToggles,
+  BlockTypeSelect,
+  ListsToggle,
+  CreateLink,
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
+import "./mdxeditor.css";
 
-// function parseLineage(object, parent) {
-//
-// }
+function CommentForm({ideaId, authorId, target}) {
+  let [md, setMd] = useState("");
+  let [state, setState] = useState(0);
+  const addComment = useMutation(api.data.addComment);
+  const addAmend = useMutation(api.data.addAmend);
+  const self = useQuery(api.users.getAuthId);
+  return (
+    <div className="commentform-outer">
+      <div className="commenttoolbar">
+        <div className="pagepicker">
+          <div onMouseDown={()=>setState(0)} className={state===0?"page-button page-button-selected":"page-button"}><div>Comment</div></div>
+          <div onMouseDown={()=>setState(1)} className={state===1?"page-button page-button-selected":"page-button"}><div>Project</div></div>
+          {self && authorId && self === authorId && <div onMouseDown={()=>setState(2)} className={state===2?"page-button page-button-selected":"page-button"}><div>Amend</div></div>}
+        </div>
+      </div>
+      <div className="commentform">
+        <div>
+          <MDXEditor
+            markdown={md}
+            onChange={setMd}
+            placeholder={<span className="mdx-placeholder">{state===0?"Share your thoughts...":state===1?"Post a finished project...":"Need to revise the writeup?"}</span>}
+            plugins={[
+              headingsPlugin(),
+              listsPlugin(),
+              quotePlugin(),
+              thematicBreakPlugin(),
+              linkPlugin(),
+              markdownShortcutPlugin(),
+              toolbarPlugin({
+                toolbarContents: () => (
+                  <>
+                    <UndoRedo />
+                    <BlockTypeSelect />
+                    <BoldItalicUnderlineToggles />
+                    <ListsToggle />
+                    <CreateLink />
+                  </>
+                ),
+              }),
+            ]}
+          />
+        </div>
+      </div>
+      <button onClick={async ()=>{
+        if (md.length < 5) { alert("Error: Write at least 5 characters in the field."); }
+        switch (state) {
+          case 0:
+            await addComment({idea: ideaId, text: md, comment: target, isProject: false});
+            break;
+          case 1:
+            await addComment({idea: ideaId, text: md, comment: target, isProject: true});
+            break;
+          case 2:
+            await addAmend({idea: ideaId, text: md});
+            break;
+          default:
+            alert("huh")
+        }
+        setMd("");
+      }}>submit</button>
+    </div>
+  )
+}
+
 
 export default function Idea() {
 
@@ -16,13 +95,11 @@ export default function Idea() {
   const [page, setPage] = useState(0);
   const d = useQuery(api.data.getIdea, idea ? { id: idea } : "skip");
   const p = useQuery(api.data.getIdea, d?.parent ? { id: d.parent } : "skip");
-  const comments = useQuery(api.data.allComments, idea ?  { idea : idea } : "skip");
+  const comments = useQuery(api.data.allComments, idea ?  { idea } : "skip");
+  const amends = useQuery(api.data.getAmends, idea ? {idea} : "skip");
 
   const boughdata = useQuery(api.data.getBough, d ? {bough: d.bough} : "skip");
   const bough = boughdata?.json ? JSON.parse(boughdata.json) : null;
-  // const lineage = bough ? parseLineage(bough, d._id) : null;
-
-  // const addComment = useMutation(api.data.addComment);
 
   return (
     !idea ? <Oops>Tinkering with the query string, huh?</Oops> :
@@ -44,6 +121,15 @@ export default function Idea() {
                   <div className="ii-title">{d.title}</div>
                   <p>by {d.authorname}</p>
                   <hr/>
+                  <div className="amends">
+                    {
+                      amends && d &&  [{text: d.init, _creationTime: d._creationTime, _id: d._id}, ...amends].map((a)=>
+                      <div key={a._id}>
+                        <div>{new Date(a._creationTime).toLocaleDateString()} / {new Date(a._creationTime).toLocaleTimeString()}</div>
+                        <Markdown>{a.text}</Markdown>
+                      </div>)
+                    }
+                  </div>
                   <h2>Comments</h2>
                   <div className="comments">
                     <div className="o">
@@ -71,26 +157,19 @@ export default function Idea() {
                     </div>
                   </div>
                   <hr/>
-                  <div>[profile picture]</div>
-                  {/*<form onSubmit={(e) => {*/}
-                  {/*  e.preventDefault();*/}
-                  {/*  const vals = Object.fromEntries(new FormData(e.currentTarget));*/}
-                  {/*  if (!vals.text) { alert("write something before submitting, please"); }*/}
-                  {/*  const isProject = Boolean(vals.isProject);*/}
-                  {/*  addComment({id: d._id, text: vals.text, isProject: isProject});*/}
-                  {/*}}>*/}
-                  {/*  <input name="text" type="text" placeholder="Contribute your thoughts..." />*/}
-                  {/*  <input name="isProject" type="text" placeholder="isProject" />*/}
-                  {/*  <button type="submit">Enter</button>*/}
-                  {/*</form>*/}
+
+                  <Authenticated>
+                    <CommentForm ideaId={d._id} authorId={d.author} target={null}/>
+                  </Authenticated>
+
                 </div>
                 : page === 1 ?
                   <div>
-                  projects
+                  ahem projects ahem
                 </div>
               :page===2?
                 <div>
-                  history
+                  cough history cough
                 </div>
               :
                 <div>

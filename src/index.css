@@ -282,7 +282,11 @@ body { background-color: #e0e0da; overflow: clip; }
     overflow: clip;
     padding: 7px; gap: 7px;
 }
-.post-inner div {
+.square {
+    color: gray;
+    border-radius: 2px;
+}
+.post-inner > div {
     color: gray;
     border-radius: 2px;
 }
@@ -320,7 +324,9 @@ body { background-color: #e0e0da; overflow: clip; }
 .preview {
     grid-area: 4 / 1 / -1 / -1;
     display: flex !important; flex-flow: row nowrap; justify-content: center; align-items: center;
-    background-color: white;
+    /*background-color: white;*/
+    background: #ffffff;
+    background: linear-gradient(0deg,rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
 }
 .post .amend > div { position: static; height: 100%; overflow-y: auto; }
 .post .amend div { color: black; }
@@ -418,10 +424,6 @@ body { background-color: #e0e0da; overflow: clip; }
 .idea-picked {
     filter: brightness(50%) saturate(50%) !important;
 }
-
-.fork-button {
-
-}
 .upvotes-container {
     display: flex; flex-flow: row nowrap; gap: 5px; font-size: 14px;
     cursor: pointer;
@@ -489,6 +491,10 @@ body { background-color: #e0e0da; overflow: clip; }
     width: 100%; height: 30px; /*background-color: pink;*/
     display: flex; flex-flow: row nowrap; align-items: center;
 }
+.commenttoolbar {
+    width: 500px; height: 30px;
+    display: flex; flex-flow: row nowrap; align-items: center;
+}
 
 .pagepicker {
     height: 30px; border-radius: 15px;
@@ -554,6 +560,17 @@ body { background-color: #e0e0da; overflow: clip; }
     height: 14px;
     border-radius: 7px;
 }
+.commentform {
+    height: 200px;
+    background-color: white;
+    border-radius: 5px;
+    cursor: text;
+    margin: 10px 0;
+}
+.commentform-outer {
+    margin: 20px;
+}
+.commentform * { cursor: inherit; }
 
 
 

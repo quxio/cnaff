@@ -47,10 +47,7 @@ function Navbar() {
         className="logo"
         alt="Idea4Project"
         src={logo}
-        onClick={() => {
-          nav("/");
-          nav(0);
-        }}
+        onClick={() =>loc?.pathname === "/" ? nav(0) : nav("/") }
       />
 
       <div style={{ width: 0, flexGrow: searching ? "0" : "1" }}></div>
