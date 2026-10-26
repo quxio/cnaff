@@ -28,12 +28,11 @@ import "@mdxeditor/editor/style.css";
 import "./mdxeditor.css";
 
 function CommentsSection({comments, target, targetFunc}) {
-  // console.log(comments.map((c)=>c._creationTime));
   function inner(parent, currentwhynot) {
     return (
       <div className="o">
         <div className={target===parent? "c target" : "c"} onClick={()=>targetFunc(parent)}>
-          {currentwhynot.parent && <div></div>}
+          <div></div>
           <div className={currentwhynot.isProject ? "chead cheadproject" : "chead cheadcomment"}>
             <StdUser authorname={currentwhynot.authorname} authorId={currentwhynot.author}/> {new Date(currentwhynot._creationTime).toLocaleDateString()}
           </div>
@@ -77,7 +76,7 @@ function CommentsSection({comments, target, targetFunc}) {
 
     <div className="comments">
       {
-        comments.filter((q)=>!q.parent).map((q)=>{console.log(q._id); return inner(q._id, q);})
+        comments.filter((q)=>!q.parent).map((q)=>inner(q._id, q))
       }
     </div>
   )
@@ -137,7 +136,8 @@ function CommentForm({ideaId, authorId, target, targetFunc}) {
             await addComment({idea: ideaId, text: md, parent: target, isProject: true});
             break;
           case 2:
-            await addAmend({idea: ideaId, text: md});
+            console.log("clicked!");
+            await addAmend({idea: ideaId, text: md, inspoComments: [target]});
             break;
           default:
             alert("huh")
@@ -147,6 +147,13 @@ function CommentForm({ideaId, authorId, target, targetFunc}) {
   )
 }
 
+
+function AmendList({inspoComments}) {
+  const amendList = useQuery(api.data.amendList, {inspoComments});
+  return (
+    <span><span className="seperatingcolon"> : </span>{amendList?.map((i)=><StdUser authorname={i.authorname} authorId={i.author}/>)}</span>
+  )
+}
 
 export default function Idea() {
 
@@ -184,9 +191,11 @@ export default function Idea() {
                   {/*<hr/>*/}
                   <div className="amends">
                     {
-                      amends && d &&  [{text: d.init, _creationTime: d._creationTime, _id: d._id}, ...amends].map((a)=>
+                      amends && d &&  amends.map((a)=>
                       <div key={a._id}>
-                        <div className="amenddate">{new Date(a._creationTime).toLocaleDateString()} / {new Date(a._creationTime).toLocaleTimeString()}</div>
+                        <div>
+                          <StdUser authorname={a.authorname} authorId={a.author}/>{a.inspoComments.length>0&&<AmendList inspoComments={a.inspoComments}/>} <span className="amenddate">{new Date(a._creationTime).toLocaleDateString()} / {new Date(a._creationTime).toLocaleTimeString()}</span>
+                        </div>
                         <Markdown>{a.text}</Markdown>
                       </div>)
                     }

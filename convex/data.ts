@@ -179,6 +179,13 @@ export const getComments = query({
     return comments;
   }
 })
+export const amendList = query({
+  args: {inspoComments: v.array(v.id("comments"))}, async handler (ctx, {inspoComments}) {
+    const comments = await Promise.all(inspoComments.map((id)=>theComment(ctx, id)));
+    await addAuthorNames(ctx, comments);
+    return comments;
+  }
+})
 export const addComment = mutation({
   args: {idea: v.id("ideas"), parent: v.nullable(v.id("comments")), text: v.string(), isProject: v.boolean()},
   async handler(ctx, {idea, parent, text, isProject}) {
@@ -194,22 +201,36 @@ export const addComment = mutation({
   }
 })
 export const addAmend = mutation({
-  args: {idea: v.id("ideas"), text: v.string()}, async handler (ctx, {idea, text}) {
+  args: {idea: v.id("ideas"), text: v.string(), inspoComments: v.array(v.id("comments"))}, async handler (ctx, {idea, text, inspoComments}) {
     const i = await theIdea(ctx, idea);
     const author = await theAuthUserId(ctx);
     if (i.author !== author) { niceTry(); }
     await ctx.db.patch("ideas", idea, {amendsTotal: i.amendsTotal + 1n});
-    await ctx.db.insert("amends", {idea, text, author, inspoComments: []})
+    await ctx.db.insert("amends", {idea, text, author, inspoComments})
   }
 })
 export const getAmends = query({
+  // TODO: fix logic for keeping track of breaks
   args: {idea: v.id("ideas")}, async handler (ctx, {idea}) {
-    await theIdea(ctx, idea);
-    return await ctx.db.query("amends").withIndex("idea", (v)=>v.eq("idea", idea)).collect();
+    let amends : any = [];
+    const iBreak = (await theIdea(ctx, idea)).break;
+
+    let parent = idea;
+    while (true) {
+      const p = await theIdea(ctx, parent);
+      const a = (await ctx.db.query("amends").withIndex("idea", (v)=>v.eq("idea", parent)).collect())
+        .filter((a)=>parent===idea || a._creationTime <= iBreak);
+      const b = {text: p.init, author: p.author, idea: parent, inspoComments: [], _creationTime: p._creationTime};
+        amends = [b, ...a, ...amends];
+      if (!p.parent) { break; }
+      parent = p.parent;
+    }
+
+    if (amends.length > 0) { await addAuthorNames(ctx, amends); }
+
+    return amends;
   }
 })
-
-
 
 export const generateUploadUrl = mutation({
   args: {}, async handler(ctx) {

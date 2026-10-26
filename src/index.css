@@ -492,6 +492,9 @@ body { background-color: #e0e0da; overflow: clip; }
 .amends > div {
     margin: 4px 0;
 }
+.seperatingcolon {
+    color: gray;
+}
 .amenddate {
     font-size: 15px; color: gray;
     margin: 2px;
@@ -692,6 +695,9 @@ body { background-color: #e0e0da; overflow: clip; }
     margin: 4px 0;
     display: grid; grid-template-rows: auto auto;
     overflow: clip;
+}
+.c:hover > .chead {
+    text-decoration: underline;
 }
 .chead {
     padding: 5px;
