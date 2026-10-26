@@ -335,6 +335,12 @@ body { background-color: #e0e0da; overflow: clip; }
 
 .feedleft {
     display: flex; flex-flow: nowrap column; gap: 12px;
+    background-color: #6179A9;
+    padding: 8px;
+    border-radius: 5px;
+}
+.feedleft * {
+    color: #BBCFFB;
 }
 .ttpicker {
     display: flex; flex-flow: nowrap column; gap: 6px;
@@ -397,7 +403,6 @@ body { background-color: #e0e0da; overflow: clip; }
 
 }
 .upvotes-container {
-    margin: 3px;
     display: flex; flex-flow: row nowrap; gap: 5px; font-size: 14px;
     cursor: pointer;
 }
@@ -409,6 +414,8 @@ body { background-color: #e0e0da; overflow: clip; }
 }
 .upvotes-container * {
     cursor: inherit;
+    color: #425883;
+
 }
 .upvotes-container div:hover {
     background-color: #788cb4;
@@ -417,16 +424,26 @@ body { background-color: #e0e0da; overflow: clip; }
 .idea * {
     cursor: inherit;
 }
-.idea-images { display: flex; flex-flow: row wrap; gap: 5px; margin: 4px 0; }
+.idea-images { display: flex; flex-flow: row wrap; gap: 5px; padding: 4px 0; }
 .idea-images > img { width: 60px; height: 60px; object-fit: cover; }
+.ideaflex {
+    display: flex; flex-flow: row nowrap; align-items: center; gap: 20px; padding: 3px;
+}
 .ideatitle {
-    /*color: #BBCFFB;*/
     font-weight: bold;
     color: #425883;
     cursor: pointer;
 }
 .ideatitle:hover {
     text-decoration: underline;
+}
+.ideaattrib {
+    color: #425883;
+    font-size: 16px;
+}
+.ideadesc {
+    font-size: 17px;
+    padding: 0 10px;
 }
 .ii-parent-title {
     color: #425883;

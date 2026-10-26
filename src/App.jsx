@@ -6,8 +6,7 @@ import {
 } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router";
-import { FaRegThumbsUp } from "react-icons/fa";
+import { useNavigate } from "react-router";
 import { RibbitAvatar } from "ribbit-canvas/react";
 import { GoGitBranch } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
@@ -40,33 +39,6 @@ function TopicPicker() {
     <div className="ttpicker">
       {topics && Object.keys(topics).map((a) => <div key={a}>{a}</div>)}
     </div>
-  );
-}
-
-function AuthUpvoteButton({ _id, upvotesArray, upvotesTotal }) {
-  const authUserId = useQuery(api.users.getAuthId);
-  const upvotable = !upvotesArray.includes(authUserId);
-  const upvote = useMutation(api.data.upvoteIdea);
-  const downvote = useMutation(api.data.downvoteIdea);
-
-  return (
-    <div>
-      <button
-        style={{ width: "auto" }}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (upvotable) {
-            upvote({ id: _id });
-          } else {
-            downvote({ id: _id });
-          }
-        }}
-      >
-        {upvotable ? `upvotes: ${upvotesTotal}` : `upvoted!!!! (${upvotesTotal})`}
-      </button>
-      <Link to={`/post?id=${_id}`}>FORK</Link>
-    </div>
-
   );
 }
 
@@ -110,21 +82,26 @@ function IdeaCard({ d, index, indexfunc, currentIndex }) {
       onClick={() => indexfunc(index)}
     >
       <img className="ideaframe" alt="z" src={frame}  />
-      <div className="ideatitle">{d.title}</div>
-      <div>{d.authorname}</div>
-      <div>{new Date(d._creationTime).toLocaleDateString()}</div>
+      <div className="ideaflex">
+        <div>
+          <div className="ideatitle">{d.title}</div>
+          <div className="ideaattrib">{d.authorname} - {new Date(d._creationTime).toLocaleDateString()}</div>
+        </div>
+        <div className="upvotes-container">
+          <Authenticated><AuthUpvote id={d._id} upvotesTotal={d.upvotesTotal} upvotesArray={d.upvotesArray}/></Authenticated>
+          <Unauthenticated><RegUpvote upvotesTotal={d.upvotesTotal}/></Unauthenticated>
+          <Authenticated><div onClick={(e)=>{e.stopPropagation();nav(`/post?id=${d._id}`);}}><GoGitBranch /><div>{`${d.nodesTotal}/${d.nodesPrev}`}</div></div></Authenticated>
+          <Unauthenticated><div onClick={(e)=>{e.stopPropagation();nav("/login");}}><GoGitBranch /><div>{`${d.nodesTotal}/${d.nodesPrev}`}</div></div></Unauthenticated>
+        </div>
+      </div>
       {d.imageUrls?.length > 0 && (
         <div className="idea-images">
-          {d.imageUrls.map((u) => <img key={u} alt="thumbnail"  src={u} />)}
+          {d.imageUrls.map((u) => <img key={u} alt="thumbnail" src={u} />)}
         </div>
       )}
 
-      <div className="upvotes-container">
-        <Authenticated><AuthUpvote id={d._id} upvotesTotal={d.upvotesTotal} upvotesArray={d.upvotesArray}/></Authenticated>
-        <Unauthenticated><RegUpvote upvotesTotal={d.upvotesTotal}/></Unauthenticated>
-        <Authenticated><div onClick={(e)=>{e.stopPropagation();nav(`/post?id=${d._id}`);}}><GoGitBranch /><div>{`${d.nodesTotal}/${d.nodesPrev}`}</div></div></Authenticated>
-        <Unauthenticated><div onClick={(e)=>{e.stopPropagation();nav("/login");}}><GoGitBranch /><div>{`${d.nodesTotal}/${d.nodesPrev}`}</div></div></Unauthenticated>
-      </div>
+      <div className="ideadesc">{d.desc}</div>
+
     </div>
   );
 }
@@ -138,7 +115,7 @@ function FeedRight() {
         <li>Visit its page to comment, attach projects, and view history</li>
         <li>Search for keywords and filters on the left</li>
         <li>Click the '+' button to start sharing a new idea,<br/>
-          or click <GoGitBranch /> to fork an existing idea.</li>
+          or click <GoGitBranch /> to remix an existing idea.</li>
       </ul>
       {/*<RibbitAvatar seed="aksdjhfghbjfad" pattern="wave" size={50} />*/}
     </div>
