@@ -36,7 +36,7 @@ function TypePicker({ selected, selectfunc }) {
 function TopicPicker() {
   const topics = useQuery(api.data.fetchTopics);
   return (
-    <div className="ttpicker">
+    <div className="ttpicker topicpicker">
       {topics && Object.keys(topics).map((a) => <div key={a}>{a}</div>)}
     </div>
   );

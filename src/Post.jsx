@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { useNavigate, useSearchParams } from "react-router";
 import { api } from "../convex/_generated/api";
+
 import {
   MDXEditor,
   headingsPlugin,
@@ -21,6 +22,9 @@ import {
 import "@mdxeditor/editor/style.css";
 import "./mdxeditor.css";
 import ForkMessage from "./ForkMessage.jsx";
+import { GoGitBranch, GoThumbsup } from "react-icons/go";
+import frame from "./assets/frame01.webp";
+
 
 function ImageDrop({ images, setImages }) {
   const generateUploadUrl = useMutation(api.data.generateUploadUrl);
@@ -78,7 +82,7 @@ function ImageDrop({ images, setImages }) {
       <span>
         {uploading > 0
           ? `Uploading ${uploading}...`
-          : "Drop your mock-ups here, or click to choose..."}
+          : "Drop mock-ups here, or click to choose"}
       </span>
       {images.map((im) => (
         <img key={im.storageId} alt="thumbnail" src={im.preview} />
@@ -98,6 +102,7 @@ export default function Post() {
 
   const types = useQuery(api.data.fetchTypes);
   const addIdea = useMutation(api.data.addIdea);
+  const user = useQuery(api.users.getAuth);
   const nav = useNavigate();
 
   const [params] = useSearchParams();
@@ -172,7 +177,7 @@ export default function Post() {
             placeholder="A short and descriptive title..."
             onChange={(e) => setTitle(e.currentTarget.value)}
           />
-          <div>{title.length > 0 ? `${title.length}/60` : ""}</div>
+          <div className="characters">{title.length > 0 ? `${title.length}/60` : ""}</div>
         </div>
         <div className="desc">
           <textarea
@@ -183,14 +188,14 @@ export default function Post() {
             placeholder="A 1-2 sentence description..."
             onChange={(e) => setDesc(e.currentTarget.value)}
           />
-          <div>{desc.length > 0 ? `${desc.length}/180` : ""}</div>
+          <div className="characters">{desc.length > 0 ? `${desc.length}/180` : ""}</div>
         </div>
         <div className="amend">
           <MDXEditor
             markdown={amend}
             onChange={setAmend}
-            contentEditableClassName="mdx-content"
-            placeholder="An inital set of specifications and details on your idea... you can add more details later"
+            // contentEditableClassName="mdx-content"
+            placeholder={<spans className="mdx-placeholder">Your space to specify and elaborate! (You can add more later.)</spans>}
             plugins={[
               headingsPlugin(),
               listsPlugin(),
@@ -211,6 +216,36 @@ export default function Post() {
               }),
             ]}
           />
+        </div>
+        <div className="preview">
+          <div className="idea ideapreview">
+            <img className="ideaframe" alt="z" src={frame}  />
+            <div className="ideaflex">
+              <div>
+                <div className="ideatitle">{title}</div>
+                <div className="ideaattrib">{user?.name} - ##/##/####</div>
+              </div>
+              <div className="upvotes-container">
+                <div className="clicky">
+                  <GoThumbsup/>
+                  <div>[...]</div>
+                </div>
+                <div>
+                  <GoGitBranch />
+                  <div>{p ? `${p.nodesTotal + 1}/${p.nodesPrev + 1}` : "0/0"}</div>
+                </div>
+              </div>
+            </div>
+
+            {/*{d.imageUrls?.length > 0 && (*/}
+            {/*  <div className="idea-images">*/}
+            {/*    {d.imageUrls.map((u) => <img key={u} alt="thumbnail" src={u} />)}*/}
+            {/*  </div>*/}
+            {/*)}*/}
+
+            <div className="ideadesc">{desc}</div>
+
+          </div>
         </div>
       </div>
     </div>

@@ -310,13 +310,22 @@ body { background-color: #e0e0da; overflow: clip; }
 }
 .posttype select { width: 100%; padding: 10px; border: none; background: none; cursor: pointer; }
 .amend {
-    grid-area: 2 / 3 / 3 / 8;
+    grid-area: 2 / 3 / 4 / 8;
+    background-color: white;
+    cursor: text;
+}
+.amend * {
+    cursor: inherit;
+}
+.preview {
+    grid-area: 4 / 1 / -1 / -1;
+    display: flex !important; flex-flow: row nowrap; justify-content: center; align-items: center;
     background-color: white;
 }
 .post .amend > div { position: static; height: 100%; overflow-y: auto; }
 .post .amend div { color: black; }
 .post textarea { width: 100%; height: 100%; resize: none; border: none; padding: 10px; cursor: text; }
-.post-inner > div > div {
+.characters {
     position: absolute;
     bottom: 3px; right: 3px;
 }
@@ -355,6 +364,12 @@ body { background-color: #e0e0da; overflow: clip; }
 .ttpicker-picked {
     font-weight: bold;
 }
+.topicpicker {
+    cursor: not-allowed;
+}
+.topicpicker * {
+    cursor: inherit;
+}
 .feedmiddle {
     display: flex; flex-flow: column nowrap;
     gap: 40px;
@@ -374,6 +389,9 @@ body { background-color: #e0e0da; overflow: clip; }
     list-style-type: circle;
 }
 
+.ideapreview {
+    box-shadow: 0 0 30px rgb(87 121 172 / 0.33);
+}
 .idea {
     width: 600px;
     min-height: 150px;
@@ -655,3 +673,6 @@ body { background-color: #e0e0da; overflow: clip; }
 .mindmap-controls button:hover { background-color: #BBCFFB; }
 .mm-node text { user-select: none; }
 .mm-link { fill: none; stroke-linecap: round; }
+.mdx-placeholder {
+    color: gray;
+}
