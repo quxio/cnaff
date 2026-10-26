@@ -152,7 +152,7 @@ export default function Post() {
 
   return (
     <div className="post">
-      {p && <ForkMessage id={p._id} authorname={p.authorname} title={p.title} /> }
+      {p && <ForkMessage id={p._id} authorname={p.authorname} authorId={p.author} title={p.title} /> }
       <div className="post-inner">
         <ImageDrop images={images} setImages={setImages} />
         <div className="posttype">

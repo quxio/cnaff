@@ -7,6 +7,7 @@ import Mindmap from "./Mindmap.jsx";
 import ForkMessage from "./ForkMessage.jsx";
 import Markdown from "react-markdown";
 import { MdCancel } from "react-icons/md";
+import StdUser from "./StdUser.jsx";
 
 import {
   MDXEditor,
@@ -31,8 +32,15 @@ function CommentsSection({comments, target, targetFunc}) {
   function inner(parent, currentwhynot) {
     return (
       <div className="o">
-        <div className={target===parent? "c target" : "c"} onClick={()=>targetFunc(parent)}>{currentwhynot.parent && <div></div>}{currentwhynot.text}</div>
+        <div className={target===parent? "c target" : "c"} onClick={()=>targetFunc(parent)}>
+          {currentwhynot.parent && <div></div>}
+          <div className={currentwhynot.isProject ? "chead cheadproject" : "chead cheadcomment"}>
+            <StdUser authorname={currentwhynot.authorname} authorId={currentwhynot.author}/> {new Date(currentwhynot._creationTime).toLocaleDateString()}
+          </div>
+          <div className="cbody">{currentwhynot.text}</div>
+        </div>
         <div className="indent">
+          <div></div>
           {
             comments.filter((q)=>q.parent===parent).map((q)=>inner(q._id, q))
           }
@@ -170,20 +178,20 @@ export default function Idea() {
             {
               page===0?
                 <div>
-                  {p && <ForkMessage id={p._id} title={p.title} authorname={p.authorname} />}
+                  {p && <ForkMessage id={p._id} title={p.title} authorname={p.authorname} authorId={p.author} />}
                   <div className="ii-title">{d.title}</div>
-                  <p>by {d.authorname}</p>
-                  <hr/>
+                  <p>by <StdUser authorname={d.authorname} authorId={d.author} /></p>
+                  {/*<hr/>*/}
                   <div className="amends">
                     {
                       amends && d &&  [{text: d.init, _creationTime: d._creationTime, _id: d._id}, ...amends].map((a)=>
                       <div key={a._id}>
-                        <div>{new Date(a._creationTime).toLocaleDateString()} / {new Date(a._creationTime).toLocaleTimeString()}</div>
+                        <div className="amenddate">{new Date(a._creationTime).toLocaleDateString()} / {new Date(a._creationTime).toLocaleTimeString()}</div>
                         <Markdown>{a.text}</Markdown>
                       </div>)
                     }
                   </div>
-                  <hr/>
+                  {/*<hr/>*/}
                     <CommentsSection comments={comments} target={target} targetFunc={setTarget}/>
                   <hr/>
 

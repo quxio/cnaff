@@ -486,7 +486,16 @@ body { background-color: #e0e0da; overflow: clip; }
     font-size: 32px;
     font-weight: bold;
 }
-
+.amends {
+    margin: 20px;
+}
+.amends > div {
+    margin: 4px 0;
+}
+.amenddate {
+    font-size: 15px; color: gray;
+    margin: 2px;
+}
 
 /*======================[ Idea ] ======================*/
 
@@ -546,30 +555,42 @@ body { background-color: #e0e0da; overflow: clip; }
 
 .forkmessage {
     height: 40px;
+    width: auto;
     display: flex; flex-flow: row nowrap; align-items: center;
     padding: 20px;
     gap: 20px;
     border-radius: 9px;
     border: 2px double #6179A9;
-    width: min(400px, 80%);
+    /*width: min(400px, 80%);*/
     margin-bottom: 10px;
 }
 .forkarrow {
     width: 10px;
 }
 .standardprofile {
-    height: 20px;
     border-radius: 2763px;
+    outline: 2px solid #d5d5da;
     background-color: #d5d5da;
-    display: flex; flex-flow: row nowrap; align-items: center;
     overflow: clip;
-    padding: 3px;
     color: gray;
-    gap: 3px;
+    overflow: clip;
+    width: auto;
+    font-size: 15px;
+    position: relative;
+    padding: 0 2px 0 18px;
+}
+.standardprofile * {
+    display: inline;
+}
+.standardprofile > *:nth-last-child(1){
+    /*padding-left: 18px;*/
 }
 .standardprofile img {
-    height: 14px;
-    border-radius: 7px;
+    height: 16px;
+    border-radius: 8px;
+    position: absolute;
+    top: 1px; left: 1px;
+    /*margin: 2px;*/
 }
 .commentform {
     height: 200px;
@@ -647,8 +668,9 @@ body { background-color: #e0e0da; overflow: clip; }
 .comments {
     display: flex; flex-flow: column nowrap;
     align-items: flex-end;
-    gap: 4px; padding: 4px;
+    padding: 4px;
     overflow-x: clip;
+    margin: 20px;
 }
 .comments * {
     font-size: 16px;
@@ -659,30 +681,43 @@ body { background-color: #e0e0da; overflow: clip; }
 .indent {
     display: flex; flex-flow: column nowrap;
     align-items: flex-end;
-    gap: 4px; padding: 4px;
-    margin-left: 30px;
+    margin-left: 40px;
     position: relative;
 }
 .c {
     border-radius: 5px; background-color: white;
     border: 1px solid lightgray;
+    height: auto;
+    position: relative;
+    margin: 4px 0;
+    display: grid; grid-template-rows: auto auto;
+    overflow: clip;
+}
+.chead {
     padding: 5px;
-    position: relative;
 }
-.c > div:nth-child(1) {
-    position: absolute; background-color: gray;
-    height: 4px; right: 100%; width: 20px;
+.cheadcomment {
+    background-color: #e7e7e7;
 }
-.index > div:nth-child(1) {
-    /*position: absolute; background-color: gray;*/
-    /*width: 4px; left: 0; height: 100%;*/
-    background-color: pink;
-}
-.o {
-    position: relative;
-}
-.o > div:nth-child(1) {
+.cheadproject {
+    background-color: #B4BDC9;
 
+}
+.cbody {
+    padding: 5px;
+}
+
+.c > div:nth-child(1) {
+    position: absolute; background-color: lightgrey;
+    height: 4px; left: -20px; width: 20px;
+}
+.indent > div:nth-child(1) {
+    position: absolute;
+    background-color: lightgrey;
+    width: 4px;
+    height: 85%;
+    left: -19px;
+    top: -4px;
 }
 .target {
     outline: 1px solid black;

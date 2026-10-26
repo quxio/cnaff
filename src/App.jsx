@@ -13,6 +13,7 @@ import { GoThumbsup } from "react-icons/go";
 import { GoLinkExternal } from "react-icons/go";
 import { HiThumbUp } from "react-icons/hi";
 import frame from "./assets/frame01.webp";
+import StdUser from "./StdUser.jsx";
 
 function TypePicker({ selected, selectfunc }) {
   const types = useQuery(api.data.fetchTypes);
@@ -151,7 +152,7 @@ function IdeaModal({ ideas, index, indexfunc }) {
       {index !== null && (
         <div onClick={(e) => e.stopPropagation()} className="ideamodal-inner">
           <h1>{d.title}</h1>
-          <p>by {d.authorname}</p>
+          <p>by <StdUser authorname={d.authorname} authorId={d.author}/></p>
           <h1>{d.desc}</h1>
           {d.imageUrls?.length > 0 && (
             <div className="ideamodal-images">
