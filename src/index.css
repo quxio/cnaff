@@ -356,7 +356,9 @@ body { background-color: #e0e0da; overflow: clip; }
 }
 .feedleft * {
     color: #6179A9;
-
+}
+.feedleftheader {
+    color: #91a1be;
 }
 .ttpicker {
     display: flex; flex-flow: nowrap column; gap: 6px;
@@ -681,6 +683,9 @@ body { background-color: #e0e0da; overflow: clip; }
 }
 .o > div:nth-child(1) {
 
+}
+.target {
+    outline: 1px solid black;
 }
 
 /*======================[ Mindmap ] ======================*/

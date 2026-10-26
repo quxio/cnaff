@@ -3,7 +3,6 @@ import { ConvexError, v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { api } from "./_generated/api";
 import { theAuthUserId, theUser } from "./users";
-import { getAuthUserId } from "@convex-dev/auth/server";
 
 async function theIdea(ctx : QueryCtx, id: Id<"ideas">) {
   const idea = await ctx.db.get("ideas", id);
@@ -172,7 +171,7 @@ export const getBough = query({
     return await theBough(ctx, bough);
   }
 })
-export const allComments = query({
+export const getComments = query({
   args: {idea: v.id("ideas")}, async handler(ctx, {idea}) {
     await theIdea(ctx, idea);
     const comments = await ctx.db.query("comments").withIndex("idea", (v)=>v.eq("idea", idea)).collect();
@@ -181,16 +180,16 @@ export const allComments = query({
   }
 })
 export const addComment = mutation({
-  args: {idea: v.id("ideas"), comment: v.nullable(v.id("comments")), text: v.string(), isProject: v.boolean()},
-  async handler(ctx, {idea, comment, text, isProject}) {
+  args: {idea: v.id("ideas"), parent: v.nullable(v.id("comments")), text: v.string(), isProject: v.boolean()},
+  async handler(ctx, {idea, parent, text, isProject}) {
     await theAuthUserId(ctx);
     await theIdea(ctx, idea);
-    if (comment) { await theComment(ctx, comment); }
+    if (parent) { await theComment(ctx, parent); }
     if (!text) { niceTry(); }
     const userId = await ctx.runQuery(api.users.getAuthId);
     await ctx.db.insert("comments", {
       author: userId, idea: idea, upvotesTotal: 0n, upvotesArray: [],
-      isProject: isProject, text: text, parent: comment,
+      isProject: isProject, text: text, parent: parent,
     });
   }
 })

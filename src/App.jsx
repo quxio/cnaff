@@ -181,7 +181,7 @@ export default function App() {
       <IdeaModal ideas={ideas} index={index} indexfunc={setIndex} />
       <div className="feed">
         <div className="feedleft">
-          <div>type</div>
+          <div className="feedleftheader">Type</div>
           <TypePicker
             selected={type}
             selectfunc={(t) => {
@@ -190,7 +190,7 @@ export default function App() {
             }}
           />
           <hr />
-          <div>topic</div>
+          <div className="feedleftheader">Topic</div>
           <TopicPicker />
         </div>
         <div className="feedmiddle">

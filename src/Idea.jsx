@@ -26,6 +26,55 @@ import {
 import "@mdxeditor/editor/style.css";
 import "./mdxeditor.css";
 
+function CommentsSection({comments, target, targetFunc}) {
+  // console.log(comments.map((c)=>c._creationTime));
+  function inner(parent, currentwhynot) {
+    return (
+      <div className="o">
+        <div className={target===parent? "c target" : "c"} onClick={()=>targetFunc(parent)}>{currentwhynot.parent && <div></div>}{currentwhynot.text}</div>
+        <div className="indent">
+          {
+            comments.filter((q)=>q.parent===parent).map((q)=>inner(q._id, q))
+          }
+        </div>
+      </div>
+    )
+  }
+  return (
+    // <div className="comments">
+    //   <div className="o">
+    //     <div></div>
+    //     <div className="c">comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/></div>
+    //     <div className="indent">
+    //       <div className="o">
+    //         <div></div>
+    //         <div className="c"><div></div>comment AAAAAAAAAAA</div>
+    //         <div className="indent">
+    //           <div><div className="c"><div></div>response BBBBBBBBBB</div></div>
+    //         </div>
+    //       </div>
+    //       <div><div className="c"><div></div>response BBBBBBBBBB</div></div>
+    //     </div>
+    //   </div>
+    //
+    //   <div className="o">
+    //     <div></div>
+    //     <div className="c">comment BBBBBBBBBB</div>
+    //     <div className="indent">
+    //       <div><div className="c"><div></div>response CCCCCCCCCC</div></div>
+    //       <div><div className="c"><div></div>response DDDDDDDDDDDD</div></div>
+    //     </div>
+    //   </div>
+    // </div>
+
+    <div className="comments">
+      {
+        comments.filter((q)=>!q.parent).map((q)=>{console.log(q._id); return inner(q._id, q);})
+      }
+    </div>
+  )
+}
+
 function CommentForm({ideaId, authorId, target, targetFunc}) {
   let [md, setMd] = useState("");
   let [state, setState] = useState(0);
@@ -74,10 +123,10 @@ function CommentForm({ideaId, authorId, target, targetFunc}) {
         if (md.length < 5) { alert("Error: Write at least 5 characters in the field."); }
         switch (state) {
           case 0:
-            await addComment({idea: ideaId, text: md, comment: target, isProject: false});
+            await addComment({idea: ideaId, text: md, parent: target, isProject: false});
             break;
           case 1:
-            await addComment({idea: ideaId, text: md, comment: target, isProject: true});
+            await addComment({idea: ideaId, text: md, parent: target, isProject: true});
             break;
           case 2:
             await addAmend({idea: ideaId, text: md});
@@ -85,7 +134,6 @@ function CommentForm({ideaId, authorId, target, targetFunc}) {
           default:
             alert("huh")
         }
-        setMd("");
       }}>submit</button>
     </div>
   )
@@ -98,11 +146,13 @@ export default function Idea() {
   const [page, setPage] = useState(0);
   const d = useQuery(api.data.getIdea, idea ? { id: idea } : "skip");
   const p = useQuery(api.data.getIdea, d?.parent ? { id: d.parent } : "skip");
-  const comments = useQuery(api.data.allComments, idea ?  { idea } : "skip");
+  const comments = useQuery(api.data.getComments, idea ?  { idea } : "skip");
   const amends = useQuery(api.data.getAmends, idea ? {idea} : "skip");
 
   const boughdata = useQuery(api.data.getBough, d ? {bough: d.bough} : "skip");
   const bough = boughdata?.json ? JSON.parse(boughdata.json) : null;
+
+  let [target, setTarget] = useState(null);
 
   return (
     !idea ? <Oops>Tinkering with the query string, huh?</Oops> :
@@ -133,36 +183,12 @@ export default function Idea() {
                       </div>)
                     }
                   </div>
-                  <h2>Comments</h2>
-                  <div className="comments">
-                    <div className="o">
-                      <div></div>
-                      <div className="c">comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/>comment AAAAAAAAAAA<br/></div>
-                      <div className="indent">
-                        <div className="o">
-                          <div></div>
-                          <div className="c"><div></div>comment AAAAAAAAAAA</div>
-                          <div className="indent">
-                            <div><div className="c"><div></div>response BBBBBBBBBB</div></div>
-                          </div>
-                        </div>
-                        <div><div className="c"><div></div>response BBBBBBBBBB</div></div>
-                      </div>
-                    </div>
-
-                    <div className="o">
-                      <div></div>
-                      <div className="c">comment BBBBBBBBBB</div>
-                      <div className="indent">
-                        <div><div className="c"><div></div>response CCCCCCCCCC</div></div>
-                        <div><div className="c"><div></div>response DDDDDDDDDDDD</div></div>
-                      </div>
-                    </div>
-                  </div>
+                  <hr/>
+                    <CommentsSection comments={comments} target={target} targetFunc={setTarget}/>
                   <hr/>
 
                   <Authenticated>
-                    <CommentForm ideaId={d._id} authorId={d.author} target={'a'}/>
+                    <CommentForm ideaId={d._id} authorId={d.author} target={target} targetFunc={setTarget}/>
                   </Authenticated>
 
                 </div>
