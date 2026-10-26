@@ -147,17 +147,6 @@ export default function Post() {
     }
   }, [nc.post]);
 
-  useEffect(() => {
-    function beforeunloadfunc(e) {
-      const unsaved = title||desc||amend||images||type;
-      if (unsaved) { e.preventDefault(); }
-      e.returnValue = unsaved;
-      return unsaved;
-    }
-    window.addEventListener("beforeunload", beforeunloadfunc);
-    return ()=>window.removeEventListener("beforeunload", beforeunloadfunc);
-  });
-
   return (
     <div className="post">
       {p && <ForkMessage id={p._id} authorname={p.authorname} title={p.title} /> }
