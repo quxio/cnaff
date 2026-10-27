@@ -36,7 +36,7 @@ function CommentsSection({comments, target, targetFunc}) {
           <div className={currentwhynot.isProject ? "chead cheadproject" : "chead cheadcomment"}>
             <StdUser authorname={currentwhynot.authorname} authorId={currentwhynot.author}/> {new Date(currentwhynot._creationTime).toLocaleDateString()}
           </div>
-          <div className="cbody">{currentwhynot.text}</div>
+          <div className="cbody"><Markdown>{currentwhynot.text}</Markdown></div>
         </div>
         <div className="indent">
           <div></div>
