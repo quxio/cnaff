@@ -6,6 +6,7 @@ Everything should be live now at [i4p.netlify.app](https://i4p.netlify.app)
 
 **functionality that got cut**
 - Working topic selector
+- Pagination
 - Logic to suggest ideas based on recency/upvotes
 - /user page
   - Bio, preferences, contacts, all that stuff
